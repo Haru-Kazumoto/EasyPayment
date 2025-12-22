@@ -13,6 +13,6 @@ class AuthController extends Controller {
             $error = 'Email atau password salah';
         }
         
-        $this->view('login', ['error' => $error]);
+        $this->view('login', ['error' => $error], 'student');
     }
 }

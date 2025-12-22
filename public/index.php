@@ -12,6 +12,7 @@ spl_autoload_register(function ($class) {
 
 $page = $_GET['page'] ?? 'login';
 
+// ROUTER
 switch ($page) {
     case 'bills':
         (new PaymentController)->index();
