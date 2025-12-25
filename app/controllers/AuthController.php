@@ -32,8 +32,8 @@ class AuthController extends Controller
     {
         session_destroy();
         // unset($_SESSION['user']);
-        // header('Location: ?page=login');
-        // exit;
+        header('Location: ?page=login');
+        exit;
     }
 
     private function redirectIfAuthenticated()
