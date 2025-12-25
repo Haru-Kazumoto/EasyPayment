@@ -1,22 +1,132 @@
-CREATE TABLE users (
-id INT AUTO_INCREMENT PRIMARY KEY,
-email VARCHAR(100),
-password VARCHAR(255),
-student_id INT
+-- ========================================
+-- SCHOOL PAYMENT SYSTEM DATABASE SCHEMA
+-- ========================================
+
+-- 1. TABEL USER
+CREATE TABLE user (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    is_admin BOOLEAN DEFAULT FALSE,
+    fullname VARCHAR(100) NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_username (username)
 );
 
-
-CREATE TABLE students (
-id INT AUTO_INCREMENT PRIMARY KEY,
-name VARCHAR(100),
-class VARCHAR(50)
+-- 2. TABEL CLASSES (Dipindah ke atas karena direferensi oleh student)
+CREATE TABLE classes (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    code VARCHAR(20) UNIQUE NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_code (code)
 );
 
+-- 3. TABEL STUDENT
+CREATE TABLE student (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    fullname VARCHAR(100) NOT NULL,
+    nisn VARCHAR(20) UNIQUE NOT NULL,
+    join_date DATE NOT NULL,
+    user_id INT,
+    class_id INT,
+    status ENUM('active', 'inactive', 'graduate') DEFAULT 'active',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE SET NULL,
+    FOREIGN KEY (class_id) REFERENCES classes(id) ON DELETE SET NULL,
+    INDEX idx_nisn (nisn),
+    INDEX idx_user_id (user_id)
+);
 
+-- 4. TABEL BILLS TYPE
+CREATE TABLE bills_type (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    code VARCHAR(20) UNIQUE NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_code (code)
+);
+
+-- 5. TABEL BILLS (Master Tagihan)
 CREATE TABLE bills (
-id INT AUTO_INCREMENT PRIMARY KEY,
-student_id INT,
-name VARCHAR(100),
-amount INT,
-status ENUM('unpaid','paid')
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(200) NOT NULL,
+    subtitle VARCHAR(200),
+    type_id INT NOT NULL,
+    admin_id INT,
+    amount DECIMAL(15,2) NOT NULL CHECK (amount >= 0),
+    due_date DATE,
+    academic_year VARCHAR(20),
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (type_id) REFERENCES bills_type(id) ON DELETE RESTRICT,
+    FOREIGN KEY (admin_id) REFERENCES user(id) ON DELETE SET NULL,
+    INDEX idx_type_id (type_id),
+    INDEX idx_due_date (due_date),
+    INDEX idx_academic_year (academic_year)
 );
+
+-- 6. TABEL STUDENT BILLS (Tagihan per Siswa)
+CREATE TABLE student_bills (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    student_id INT NOT NULL,
+    bill_id INT NOT NULL,
+    register_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (student_id) REFERENCES student(id) ON DELETE CASCADE,
+    FOREIGN KEY (bill_id) REFERENCES bills(id) ON DELETE CASCADE,
+    INDEX idx_student_id (student_id),
+    INDEX idx_bill_id (bill_id)
+);
+
+-- 7. TABEL TRANSACTION (Pembayaran)
+CREATE TABLE transaction (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    amount DECIMAL(15,2) NOT NULL CHECK (amount >= 0),
+    paid_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    trx_number VARCHAR(50) UNIQUE NOT NULL,
+    approved_at DATETIME,
+    approved_by INT,
+    student_id INT NOT NULL,
+    bill_id INT NOT NULL,
+    payment_method ENUM('cash', 'transfer') NOT NULL,
+    FOREIGN KEY (approved_by) REFERENCES user(id) ON DELETE SET NULL,
+    FOREIGN KEY (student_id) REFERENCES student(id) ON DELETE RESTRICT,
+    FOREIGN KEY (bill_id) REFERENCES bills(id) ON DELETE RESTRICT,
+    INDEX idx_trx_number (trx_number),
+    INDEX idx_student_id (student_id),
+    INDEX idx_bill_id (bill_id),
+    INDEX idx_paid_at (paid_at)
+);
+
+-- 8. TABEL PAYMENT LOGS (Riwayat Pembayaran)
+CREATE TABLE payment_logs (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    action ENUM('create', 'update', 'approve', 'reject') NOT NULL,
+    title VARCHAR(200) NOT NULL,
+    action_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    description TEXT,
+    student_id INT,
+    bill_id INT,
+    transaction_id INT NULL,
+    performed_by INT,
+    FOREIGN KEY (student_id) REFERENCES student(id) ON DELETE SET NULL,
+    FOREIGN KEY (bill_id) REFERENCES bills(id) ON DELETE SET NULL,
+    FOREIGN KEY (transaction_id) REFERENCES transaction(id) ON DELETE SET NULL,
+    FOREIGN KEY (performed_by) REFERENCES user(id) ON DELETE SET NULL,
+    INDEX idx_action_at (action_at),
+    INDEX idx_student_id (student_id)
+);
+
+-- ========================================
+-- SAMPLE DATA
+-- ========================================
+
+-- Admin User
+INSERT INTO user (username, password, is_admin, fullname) VALUES
+('admin', '$2y$10$w7a4pcnivP.JZ4bUbQ5l5.FLm5NGgbsseOYVQnvSzZQl4.KG4NiK2', TRUE, 'Administrator'),
+('student', '$2y$10$w7a4pcnivP.JZ4bUbQ5l5.FLm5NGgbsseOYVQnvSzZQl4.KG4NiK2', FALSE, 'Siswa pembayar');

@@ -14,9 +14,13 @@ $page = $_GET['page'] ?? 'login';
 
 // ROUTER
 switch ($page) {
+    case 'register': 
+        (new AuthController)->register();
+        break;
     case 'bills':
         (new PaymentController)->index();
         break;
+    
     default:
         (new AuthController)->login();
 }

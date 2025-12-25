@@ -1,6 +1,6 @@
 <?php
 class Controller {
-    protected function view($view, $data = [], $layout = 'user') {
+    protected function view($view, $data = [], $layout = 'student') {
         extract($data);
 
         ob_start();

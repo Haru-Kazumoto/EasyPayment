@@ -1,8 +1,10 @@
 <?php
-class AuthController extends Controller {
-    public function login() {
+class AuthController extends Controller
+{
+    public function login()
+    {
         $error = null;
-        
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $user = User::findByEmail($_POST['email']);
             if ($user && password_verify($_POST['password'], $user['password'])) {
@@ -12,7 +14,7 @@ class AuthController extends Controller {
             }
             $error = 'Email atau password salah';
         }
-        
+
         /**
          * view punya 3 parameter sekarang
          * 1. nama view
@@ -29,6 +31,29 @@ class AuthController extends Controller {
          * biar gak perlu nulis berulang-ulang di tiap view
          * jadi di layout kita panggil $content yang isinya adalah view yang kita panggil
          */
-        $this->view('login', ['error' => $error], 'student');
+        $this->view('login', [
+            'error' => $error,
+            'username' => 'admin',
+            'password' => password_hash('admin123', PASSWORD_BCRYPT)
+        ], 'guest');
+    }
+
+    public function register()
+    {
+        $error = null;
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $existingUser = User::findByEmail($_POST['email']);
+            if ($existingUser) {
+                $error = 'Email sudah terdaftar';
+            } else {
+                $hashedPassword = password_hash($_POST['password'], PASSWORD_BCRYPT);
+                User::create($_POST['name'], $_POST['email'], $hashedPassword);
+                header('Location: /?page=register');
+                exit;
+            }
+        }
+
+        $this->view('register', ['error' => $error], 'guest');
     }
 }

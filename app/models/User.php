@@ -6,4 +6,10 @@ class User {
         $stmt->execute([$email]);
         return $stmt->fetch();
     }
+
+    public static function create($name, $email, $password) {
+        $db = Database::getInstance()->pdo();
+        $stmt = $db->prepare("INSERT INTO users (name, email, password) VALUES (?, ?, ?)");
+        return $stmt->execute([$name, $email, $password]);
+    }
 }
