@@ -3,7 +3,7 @@
 -- ========================================
 
 -- 1. TABEL USER
-CREATE TABLE user (
+CREATE TABLE users(
     id INT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(50) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
@@ -35,7 +35,7 @@ CREATE TABLE student (
     status ENUM('active', 'inactive', 'graduate') DEFAULT 'active',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE SET NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
     FOREIGN KEY (class_id) REFERENCES classes(id) ON DELETE SET NULL,
     INDEX idx_nisn (nisn),
     INDEX idx_user_id (user_id)
@@ -65,7 +65,7 @@ CREATE TABLE bills (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (type_id) REFERENCES bills_type(id) ON DELETE RESTRICT,
-    FOREIGN KEY (admin_id) REFERENCES user(id) ON DELETE SET NULL,
+    FOREIGN KEY (admin_id) REFERENCES users(id) ON DELETE SET NULL,
     INDEX idx_type_id (type_id),
     INDEX idx_due_date (due_date),
     INDEX idx_academic_year (academic_year)
@@ -94,7 +94,7 @@ CREATE TABLE transaction (
     student_id INT NOT NULL,
     bill_id INT NOT NULL,
     payment_method ENUM('cash', 'transfer') NOT NULL,
-    FOREIGN KEY (approved_by) REFERENCES user(id) ON DELETE SET NULL,
+    FOREIGN KEY (approved_by) REFERENCES users(id) ON DELETE SET NULL,
     FOREIGN KEY (student_id) REFERENCES student(id) ON DELETE RESTRICT,
     FOREIGN KEY (bill_id) REFERENCES bills(id) ON DELETE RESTRICT,
     INDEX idx_trx_number (trx_number),
@@ -117,7 +117,7 @@ CREATE TABLE payment_logs (
     FOREIGN KEY (student_id) REFERENCES student(id) ON DELETE SET NULL,
     FOREIGN KEY (bill_id) REFERENCES bills(id) ON DELETE SET NULL,
     FOREIGN KEY (transaction_id) REFERENCES transaction(id) ON DELETE SET NULL,
-    FOREIGN KEY (performed_by) REFERENCES user(id) ON DELETE SET NULL,
+    FOREIGN KEY (performed_by) REFERENCES users(id) ON DELETE SET NULL,
     INDEX idx_action_at (action_at),
     INDEX idx_student_id (student_id)
 );
@@ -127,6 +127,6 @@ CREATE TABLE payment_logs (
 -- ========================================
 
 -- Admin User
-INSERT INTO user (username, password, is_admin, fullname) VALUES
+INSERT INTO users(username, password, is_admin, fullname) VALUES
 ('admin', '$2y$10$w7a4pcnivP.JZ4bUbQ5l5.FLm5NGgbsseOYVQnvSzZQl4.KG4NiK2', TRUE, 'Administrator'),
 ('student', '$2y$10$w7a4pcnivP.JZ4bUbQ5l5.FLm5NGgbsseOYVQnvSzZQl4.KG4NiK2', FALSE, 'Siswa pembayar');
