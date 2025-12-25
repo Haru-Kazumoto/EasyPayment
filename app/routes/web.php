@@ -47,3 +47,6 @@ Router::get('classes', 'StudentController', 'classes');
 
 // Logs Routes
 Router::get('payment-logs', 'LogController', 'index');
+
+
+Router::get('student-list', 'StudentController','index');

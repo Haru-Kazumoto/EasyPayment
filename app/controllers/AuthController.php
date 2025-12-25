@@ -30,9 +30,10 @@ class AuthController extends Controller
 
     public function logout()
     {
-        unset($_SESSION['user']);
-        header('Location: ?page=login');
-        exit;
+        session_destroy();
+        // unset($_SESSION['user']);
+        // header('Location: ?page=login');
+        // exit;
     }
 
     private function redirectIfAuthenticated()
