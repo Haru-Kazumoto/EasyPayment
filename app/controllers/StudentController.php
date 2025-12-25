@@ -8,12 +8,4 @@ class StudentController extends Controller {
             'students' => $students
         ], 'student');
     }
-
-    admin:
-    username : admin
-    asspwrd: admin123
-
-    student: 
-    username : student
-    asspwrd: admin123
 }
