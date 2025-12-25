@@ -2,6 +2,7 @@
 require '../app/helpers/session.php';
 require '../app/core/Database.php';
 require '../app/core/Controller.php';
+require '../app/core/Router.php';
 
 spl_autoload_register(function ($class) {
     foreach (['controllers', 'models'] as $dir) {
@@ -12,15 +13,8 @@ spl_autoload_register(function ($class) {
 
 $page = $_GET['page'] ?? 'login';
 
-// ROUTER
-switch ($page) {
-    case 'register': 
-        (new AuthController)->register();
-        break;
-    case 'bills':
-        (new PaymentController)->index();
-        break;
-    
-    default:
-        (new AuthController)->login();
-}
+// load routes
+require '../app/routes/web.php';
+
+// routing nya panggil disini ngab, kalo bingung baca aja di core/Router.php
+Router::dispatch();

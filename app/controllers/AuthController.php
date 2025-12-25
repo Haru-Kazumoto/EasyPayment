@@ -3,57 +3,54 @@ class AuthController extends Controller
 {
     public function login()
     {
+        // Jika sudah login, redirect ke dashboard sesuai role
+        if (isset($_SESSION['user'])) {
+            if ($_SESSION['user']['is_admin']) {
+                header('Location: ?page=dashboard-admin');
+            } else {
+                header('Location: ?page=dashboard-student');
+            }
+            exit;
+        }
+
         $error = null;
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $user = User::findByEmail($_POST['email']);
-            if ($user && password_verify($_POST['password'], $user['password'])) {
-                $_SESSION['user'] = $user;
-                header('Location: /?page=dashboard');
-                exit;
+            $username = $_POST['username'] ?? '';
+            $password = $_POST['password'] ?? '';
+
+            // Validasi input
+            if (empty($username) || empty($password)) {
+                $error = 'Username dan password harus diisi';
+            } else {
+                $user = User::findByUsername($username);
+
+                if ($user && password_verify($password, $user['password'])) {
+                    // Login berhasil
+                    $_SESSION['user'] = $user;
+
+                    // Redirect berdasarkan role
+                    if ($user['is_admin']) {
+                        header('Location: ?page=dashboard-admin');
+                    } else {
+                        header('Location: ?page=dashboard-student');
+                    }
+                    exit;
+                } else {
+                    $error = 'Username atau password salah';
+                }
             }
-            $error = 'Email atau password salah';
         }
 
-        /**
-         * view punya 3 parameter sekarang
-         * 1. nama view
-         * 2. data yang dikirim ke view
-         * 3. layout yang dipakai
-         * default layout adalah 'user'
-         * kita mau ganti layoutnya jadi 'student'
-         * karena halaman login ini untuk student
-         * jadi kita panggil layout student
-         * jangan lupa buat layout student di views/layouts/student.php
-         * dan isinya bisa di copy dari layout guest
-         * 
-         * jadi layout itu utamanya isian dari header, footer, dan navigasi
-         * biar gak perlu nulis berulang-ulang di tiap view
-         * jadi di layout kita panggil $content yang isinya adalah view yang kita panggil
-         */
         $this->view('login', [
             'error' => $error,
-            'username' => 'admin',
-            'password' => password_hash('admin123', PASSWORD_BCRYPT)
         ], 'guest');
     }
 
-    public function register()
+    public function logout()
     {
-        $error = null;
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $existingUser = User::findByEmail($_POST['email']);
-            if ($existingUser) {
-                $error = 'Email sudah terdaftar';
-            } else {
-                $hashedPassword = password_hash($_POST['password'], PASSWORD_BCRYPT);
-                User::create($_POST['name'], $_POST['email'], $hashedPassword);
-                header('Location: /?page=register');
-                exit;
-            }
-        }
-
-        $this->view('register', ['error' => $error], 'guest');
+        session_destroy();
+        header('Location: ?page=login');
+        exit;
     }
 }
