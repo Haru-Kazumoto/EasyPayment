@@ -3,54 +3,58 @@ class AuthController extends Controller
 {
     public function login()
     {
-        // Jika sudah login, redirect ke dashboard sesuai role
-        if (isset($_SESSION['user'])) {
-            if ($_SESSION['user']['is_admin']) {
-                header('Location: ?page=dashboard-admin');
-            } else {
-                header('Location: ?page=dashboard-student');
-            }
-            exit;
-        }
+        $this->redirectIfAuthenticated();
 
         $error = null;
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $username = $_POST['username'] ?? '';
+            $username = trim($_POST['username'] ?? '');
             $password = $_POST['password'] ?? '';
 
-            // Validasi input
-            if (empty($username) || empty($password)) {
+            if ($username === '' || $password === '') {
                 $error = 'Username dan password harus diisi';
             } else {
                 $user = User::findByUsername($username);
 
-                if ($user && password_verify($password, $user['password'])) {
-                    // Login berhasil
-                    $_SESSION['user'] = $user;
-
-                    // Redirect berdasarkan role
-                    if ($user['is_admin']) {
-                        header('Location: ?page=dashboard-admin');
-                    } else {
-                        header('Location: ?page=dashboard-student');
-                    }
-                    exit;
-                } else {
+                if (!$user || !password_verify($password, $user['password'])) {
                     $error = 'Username atau password salah';
+                } else {
+                    $this->authenticate($user);
+                    $this->redirectByRole($user['is_admin']);
                 }
             }
         }
 
-        $this->view('login', [
-            'error' => $error,
-        ], 'guest');
+        $this->view('login', compact('error'), 'guest');
     }
 
     public function logout()
     {
-        session_destroy();
+        unset($_SESSION['user']);
         header('Location: ?page=login');
+        exit;
+    }
+
+    private function redirectIfAuthenticated()
+    {
+        if (!isset($_SESSION['user'])) {
+            return;
+        }
+
+        $this->redirectByRole($_SESSION['user']['is_admin']);
+    }
+
+    private function authenticate(array $user)
+    {
+        session_regenerate_id(true);
+        $_SESSION['user'] = $user;
+    }
+
+    private function redirectByRole(bool $isAdmin)
+    {
+        header(
+            'Location: ?page=' . ($isAdmin ? 'dashboard-admin' : 'dashboard-student')
+        );
         exit;
     }
 }
