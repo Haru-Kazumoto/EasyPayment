@@ -1,4 +1,5 @@
 <?php
+require_once '../app/config/config.php';
 require '../app/helpers/session.php';
 require '../app/core/Database.php';
 require '../app/core/Controller.php';
