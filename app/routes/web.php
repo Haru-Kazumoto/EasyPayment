@@ -38,14 +38,14 @@ Router::get('dashboard-student', 'DashboardController', 'student')->middleware('
 // Payment Routes
 Router::get('bills', 'BillsController', 'index');
 
+// Payment Types Routes
+Router::get('bill-types', 'BillTypesController', 'index');
+
 // Student Routes
 Router::get('students', 'StudentController', 'index')->middleware('AdminGuard');
 Router::get('classes', 'StudentController', 'classes');
 
 // Logs Routes
 Router::get('payment-logs', 'LogController', 'index');
-
-
-// Router::get('student-list', 'StudentController','index');
 
 Router::get('classes', 'ClassesController', 'index');
