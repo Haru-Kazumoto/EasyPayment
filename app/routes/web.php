@@ -46,4 +46,6 @@ Router::get('classes', 'StudentController', 'classes');
 Router::get('payment-logs', 'LogController', 'index');
 
 
-Router::get('student-list', 'StudentController','index');
+// Router::get('student-list', 'StudentController','index');
+
+Router::get('classes', 'ClassesController', 'index');
