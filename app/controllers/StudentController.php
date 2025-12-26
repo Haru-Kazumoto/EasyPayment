@@ -6,6 +6,6 @@ class StudentController extends Controller {
 
         $this->view('student-list', [
             'students' => $students
-        ], 'student');
+        ], 'admin');
     }
 }
