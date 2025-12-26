@@ -130,3 +130,12 @@ CREATE TABLE payment_logs (
 INSERT INTO users(username, password, is_admin, fullname) VALUES
 ('admin', '$2y$10$w7a4pcnivP.JZ4bUbQ5l5.FLm5NGgbsseOYVQnvSzZQl4.KG4NiK2', TRUE, 'Administrator'),
 ('student', '$2y$10$w7a4pcnivP.JZ4bUbQ5l5.FLm5NGgbsseOYVQnvSzZQl4.KG4NiK2', FALSE, 'Siswa pembayar');
+
+
+field data kelas : 
+nama kelas -> name
+kode kelas -> code 
+
+created_at, updated_at
+
+buat, nampilin, update, hapus

@@ -25,7 +25,7 @@ function isActiveIcon($page)
 
 <body class="bg-gray-50">
     <aside id="sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
-        <div class="h-full px-3 py-4 overflow-y-auto bg-white border-r border-gray-200">
+        <div class="h-full px-3 py-4 overflow-y-auto bg-white border-r border-gray-200 flex flex-col">
             <div class="flex items-center justify-center mb-6 pb-4 border-b border-gray-200">
                 <a href="/?page=dashboard-admin" class="flex items-center space-x-3">
                     <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
@@ -98,6 +98,26 @@ function isActiveIcon($page)
                     </a>
                 </li>
             </ul>
+
+            <div class="mt-auto pt-4 border-t border-gray-200">
+                <div class="flex items-center gap-3 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition">
+                    <!-- Avatar -->
+                    <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold">
+                        <?= strtoupper(substr($_SESSION['user']['fullname'] ?? 'N', 0, 1)) ?>
+                    </div>
+
+                    <!-- User Info -->
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-semibold text-gray-800 truncate">
+                            <?= $_SESSION['user']['fullname'] ?? 'NN' ?>
+                        </p>
+                        <p class="text-xs text-gray-500">
+                            Administrator
+                        </p>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </aside>
 
@@ -136,10 +156,10 @@ function isActiveIcon($page)
                             <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
                         </svg>
                     </button>
-                    <h1 class="ml-3 text-xl font-semibold text-gray-800">Dashboard Admin</h1>
+                    <h1 class="ml-3 text-sm sm:text-xl font-semibold text-gray-800">Admin Panel</h1>
                 </div>
                 <div class="flex items-center gap-3">
-                    <span class="text-sm text-gray-600">Halo, <strong><?= $_SESSION['user']['fullname'] ?? 'Admin' ?></strong></span>
+                    <span class="hidden sm:hidden text-sm text-gray-600">Halo, <strong><?= $_SESSION['user']['fullname'] ?? 'Admin' ?></strong></span>
                     <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold">
                         <?= strtoupper(substr($_SESSION['user']['fullname'] ?? 'A', 0, 1)) ?>
                     </div>
@@ -147,9 +167,33 @@ function isActiveIcon($page)
             </div>
         </nav>
 
-        <main class="p-4">
+        <main class="p-4 bg-gray-50 min-h-[calc(100vh-4rem)]">
             <?= $content ?>
         </main>
+
+        <footer class="bg-gray-900">
+            <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
+                <div class="sm:flex sm:items-center sm:justify-between">
+                    <div class="flex items-center justify-center ">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+                                <span class="text-white font-bold text-xl">EP</span>
+                            </div>
+                            <span class="text-xl font-semibold text-white">EasyPayment</span>
+                        </div>
+                    </div>
+                    <ul class="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
+                        <li>
+                            <a href="https://haru-kazumoto.github.io/ziaurrahman/" class="hover:underline me-4 md:me-6">About</a>
+                        </li>
+                    </ul>
+                </div>
+                <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+                <span class="block text-sm text-gray-500 sm:text-center dark:text-gray-400">© EasyPayment. All Rights Reserved.</span>
+            </div>
+        </footer>
+
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>

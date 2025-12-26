@@ -16,8 +16,8 @@
     </div>
 </div>
 
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-    <div class="flex gap-3 bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 ">
+    <div class="flex gap-3 bg-white rounded-xl shadow-md p-6 border border-gray-200">
         <div class="flex items-center justify-between mb-4">
             <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
                 <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
@@ -32,7 +32,7 @@
         </div>
     </div>
 
-    <div class="flex gap-3 bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+    <div class="flex gap-3 bg-white rounded-xl shadow-md p-6 border border-gray-200">
         <div class="flex items-center justify-between mb-4">
             <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
                 <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
@@ -47,7 +47,7 @@
         </div>
     </div>
 
-    <div class="flex gap-3 bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+    <div class="flex gap-3 bg-white rounded-xl shadow-md p-6 border border-gray-200">
         <div class="flex items-center justify-between mb-4">
             <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
                 <svg class="w-6 h-6 text-yellow-600" fill="currentColor" viewBox="0 0 20 20">
@@ -62,7 +62,7 @@
         </div>
     </div>
 
-    <div class="flex gap-3 bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+    <div class="flex gap-3 bg-white rounded-xl shadow-md p-6 border border-gray-200">
         <div class="flex items-center justify-between mb-4">
             <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
                 <svg class="w-6 h-6 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
@@ -79,7 +79,7 @@
 </div>
 
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-    <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-100">
+    <div class="lg:col-span-2 bg-white rounded-xl shadow-md border border-gray-200">
         <div class="p-6 border-b border-gray-100">
             <div class="flex items-center justify-between">
                 <h2 class="text-lg font-semibold text-gray-800">Tagihan Terbaru</h2>
@@ -89,7 +89,7 @@
             </div>
         </div>
         <div class="p-6 space-y-4">
-            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200">
+            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg transition-colors duration-200 border border-gray-200 hover:bg-blue-50 hover:border-blue-200 cursor-pointer">
                 <div class="flex items-center space-x-4">
                     <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
                         <svg class="w-6 h-6 text-yellow-600" fill="currentColor" viewBox="0 0 20 20">
@@ -110,7 +110,7 @@
                 </div>
             </div>
 
-            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200">
+            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg transition-colors duration-200 border border-gray-200 hover:bg-blue-50 hover:border-blue-200 cursor-pointer">
                 <div class="flex items-center space-x-4">
                     <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
                         <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
@@ -130,7 +130,7 @@
                 </div>
             </div>
 
-            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200">
+            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg transition-colors duration-200 border border-gray-200 hover:bg-blue-50 hover:border-blue-200 cursor-pointer">
                 <div class="flex items-center space-x-4">
                     <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
                         <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
@@ -154,7 +154,7 @@
     </div>
 
     <div class="space-y-6">
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100">
+        <div class="bg-white rounded-xl shadow-md border border-gray-200">
             <div class="p-6 border-b border-gray-100">
                 <h2 class="text-lg font-semibold text-gray-800">Quick Actions</h2>
             </div>
@@ -186,7 +186,7 @@
             </div>
         </div>
 
-        <div class="bg-blue-600 rounded-xl shadow-sm p-6 text-white">
+        <div class="bg-blue-600 rounded-xl shadow-md p-6 text-white">
             <h3 class="text-sm font-medium text-blue-100 mb-2">Informasi Kelas</h3>
             <p class="text-2xl font-bold mb-1">XII IPA 1</p>
             <p class="text-sm text-blue-100">Tahun Ajaran 2024/2025</p>

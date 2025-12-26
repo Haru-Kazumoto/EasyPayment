@@ -4,8 +4,8 @@ class StudentController extends Controller {
     {
         $students = Student::getAllStudents();
 
-        $this->view('student-list', [
-            'students' => $students
-        ], 'student');
+        $this->view('students', [
+            'nama' => 'ferdian'
+        ], 'admin');
     }
 }

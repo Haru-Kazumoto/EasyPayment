@@ -1,9 +1,11 @@
 <?php
-class Database {
+class Database
+{
     private static $instance = null;
     private $pdo;
 
-    private function __construct() {
+    private function __construct()
+    {
         $config = require __DIR__ . '/../config/database.php';
         $dsn = "mysql:host={$config['host']};dbname={$config['dbname']};charset=utf8mb4";
         $this->pdo = new PDO($dsn, $config['user'], $config['pass'], [
@@ -12,14 +14,16 @@ class Database {
         ]);
     }
 
-    public static function getInstance() {
+    public static function getInstance()
+    {
         if (self::$instance === null) {
             self::$instance = new self();
         }
         return self::$instance;
     }
 
-    public function pdo() {
+    public function pdo()
+    {
         return $this->pdo;
     }
 }

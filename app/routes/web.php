@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Cara buat route:
  * Router::get('nama-page-di-url', 'NamaController', 'namaMethodDiController');
@@ -33,16 +32,14 @@ Router::get('login', 'AuthController', 'login');
 Router::get('logout', 'AuthController', 'logout');
 
 // Dashboard Routes
-Router::get('dashboard-admin', 'DashboardController', 'admin');
-Router::get('dashboard-student', 'DashboardController', 'student');
+Router::get('dashboard-admin', 'DashboardController', 'admin')->middleware('AdminGuard');
+Router::get('dashboard-student', 'DashboardController', 'student')->middleware('StudentGuard');
 
 // Payment Routes
-Router::get('bills', 'PaymentController', 'index');
-Router::get('bills-type', 'PaymentController', 'billsType');
-Router::get('transactions', 'PaymentController', 'transactions');
+Router::get('bills', 'BillsController', 'index');
 
 // Student Routes
-Router::get('students', 'StudentController', 'index');
+Router::get('students', 'StudentController', 'index')->middleware('AdminGuard');
 Router::get('classes', 'StudentController', 'classes');
 
 // Logs Routes

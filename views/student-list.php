@@ -1,1 +1,0 @@
-<h1>halaman daftar siswa</h1>

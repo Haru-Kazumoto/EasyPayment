@@ -45,8 +45,8 @@ function isActiveStudent($page)
                             <span>Dashboard</span>
                         </div>
                     </a>
-                    <a href="/?page=student-bills"
-                        class="px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200 <?= isActiveStudent('student-bills') ?>">
+                    <a href="/?page=bills"
+                        class="px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200 <?= isActiveStudent('bills') ?>">
                         <div class="flex items-center space-x-2">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"></path>
@@ -165,7 +165,7 @@ function isActiveStudent($page)
     </nav>
 
 
-    <main class="pt-20 pb-8">
+    <main class="pt-20 pb-8 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <?= $content ?>
         </div>
