@@ -38,8 +38,9 @@ Router::get('dashboard-student', 'DashboardController', 'student')->middleware('
 // Payment Routes
 Router::get('bills', 'BillsController', 'index');
 
-// Payment Types Routes
+// Bill Types Routes
 Router::get('bill-types', 'BillTypesController', 'index');
+Router::get('bill-types/create', 'BillTypesController', 'create');
 
 // Student Routes
 Router::get('students', 'StudentController', 'index')->middleware('AdminGuard');
