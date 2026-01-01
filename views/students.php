@@ -155,6 +155,9 @@
                     </tr>
                 </thead>
                 <tbody>
+
+                    <!-- pakai foreach disini buat ambil data siswanya, kalau bingung tanya AI aja -->
+
                     <tr class="bg-white border-b border-gray-200 hover:bg-gray-100 text-gray-900 font-medium whitespace-nowrap">
                         <th class="px-6 py-4">
                             Ziaurrahman Athaya
