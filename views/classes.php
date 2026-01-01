@@ -5,10 +5,10 @@
             Data Master Kelas
         </h1>
 
-        <button
+        <a type="button" href="<?= url('create-classes') ?>"
             class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300">
             + Tambah Kelas
-        </button>
+        </a>
     </div>
 
     <!-- Table -->
@@ -23,53 +23,40 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Row 1 -->
-                <tr class="bg-white border-b hover:bg-gray-50">
-                    <td class="px-6 py-4 font-medium text-gray-900">
-                        X RPL 1
-                    </td>
-                    <td class="px-6 py-4">
-                        RPL-X1
-                    </td>
-                    <td class="px-6 py-4">
-                        2024-01-10
-                    </td>
-                    <td class="px-6 py-4 text-center space-x-2">
-                        <button
-                            class="px-3 py-1 text-xs font-medium text-white bg-yellow-400 rounded hover:bg-yellow-500">
-                            Edit
-                        </button>
-                        <button
-                            class="px-3 py-1 text-xs font-medium text-white bg-red-600 rounded hover:bg-red-700">
-                            Hapus
-                        </button>
-                    </td>
-                </tr>
+<?php if (empty($classes)): ?>
+    <tr>
+        <td colspan="4" class="px-6 py-4 text-center text-gray-500">
+            Belum ada data kelas
+        </td>
+    </tr>
+<?php else: ?>
+    <?php foreach ($classes as $class): ?>
+        <tr class="bg-white border-b hover:bg-gray-50">
+            <td class="px-6 py-4 font-medium text-gray-900">
+                <?= htmlspecialchars($class['name']) ?>
+            </td>
+            <td class="px-6 py-4">
+                <?= htmlspecialchars($class['code']) ?>
+            </td>
+            <td class="px-6 py-4">
+                <?= date('Y-m-d', strtotime($class['created_at'])) ?>
+            </td>
+            <td class="px-6 py-4 text-center space-x-2">
+                <a href="<?= url('classes/edit&id=' . $class['id']) ?>"
+                   class="px-3 py-1 text-xs font-medium text-white bg-yellow-400 rounded hover:bg-yellow-500">
+                    Edit
+                </a>
+                <a href="<?= url('classes/delete&id=' . $class['id']) ?>"
+                   onclick="return confirm('Yakin hapus data ini?')"
+                   class="px-3 py-1 text-xs font-medium text-white bg-red-600 rounded hover:bg-red-700">
+                    Hapus
+                </a>
+            </td>
+        </tr>
+    <?php endforeach ?>
+<?php endif ?>
+</tbody>
 
-                <!-- Row 2 -->
-                <tr class="bg-white border-b hover:bg-gray-50">
-                    <td class="px-6 py-4 font-medium text-gray-900">
-                        XI TKJ 2
-                    </td>
-                    <td class="px-6 py-4">
-                        TKJ-XI2
-                    </td>
-                    <td class="px-6 py-4">
-                        2024-01-12
-                    </td>
-                    <td class="px-6 py-4 text-center space-x-2">
-                        <button
-                            class="px-3 py-1 text-xs font-medium text-white bg-yellow-400 rounded hover:bg-yellow-500">
-                            Edit
-                        </button>
-                        <button
-                            class="px-3 py-1 text-xs font-medium text-white bg-red-600 rounded hover:bg-red-700">
-                            Hapus
-                        </button>
-                    </td>
-                </tr>
-
-            </tbody>
         </table>
     </div>
 </div>
