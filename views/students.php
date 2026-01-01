@@ -32,12 +32,12 @@
             </nav>
         </div>
 
-        <button type="button" class="text-white bg-blue-600 hover:bg-[#4285F4]/90 hover:transition-colors hover:transition-all focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center ">
+        <a href="<?= url('students/create') ?>" type="button" class="text-white bg-blue-600 hover:bg-[#4285F4]/90 hover:transition-colors hover:transition-all focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center ">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 mr-3">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
             </svg>
             Tambah Siswa
-        </button>
+        </a> 
     </div>
 
     <!-- content page -->

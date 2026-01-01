@@ -45,8 +45,10 @@ Router::get('bill-types/create', 'BillTypesController', 'create');
 // Student Routes
 Router::get('students', 'StudentController', 'index')->middleware('AdminGuard');
 Router::get('classes', 'StudentController', 'classes');
+Router::get('students/create', 'StudentController', 'create');
 
 // Logs Routes
 Router::get('payment-logs', 'LogController', 'index');
 
 Router::get('classes', 'ClassesController', 'index');
+
