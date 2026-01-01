@@ -61,7 +61,7 @@
                     <?php endif; ?>
 
                     <!-- Modal body -->
-                    <form class="p-4 md:p-5 flex flex-col gap-4" action="<?= url('bill-types/create') ?>" method="POST">
+                    <form class="p-4 md:p-5 flex flex-col gap-4" action="<?= url('bill-types/store') ?>" method="POST">
                         <div class="grid gap-4 mb-4 grid-cols-2">
                             <div class="col-span-2">
                                 <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Name</label>
@@ -129,7 +129,7 @@
 
         <div class="relative overflow-x-auto sm:rounded-lg">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500">
-                <thead class="text-xs text-gray-700 uppercase bg-gray-100">
+                <thead class="text-xs text-white uppercase bg-blue-600">
                     <tr>
                         <th scope="col" class="px-6 py-3">
                             #

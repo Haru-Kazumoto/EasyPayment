@@ -77,8 +77,8 @@
 
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
     <div class="lg:col-span-2 bg-white rounded-lg shadow">
-        <div class="p-6 border-b border-gray-200">
-            <h2 class="text-lg font-semibold text-gray-800">Transaksi Terbaru</h2>
+        <div class="p-6 border-b border-gray-200 bg-blue-600 rounded-t-lg">
+            <h2 class="text-lg font-semibold text-white">Transaksi Terbaru</h2>
         </div>
         <div class="p-6">
             <div class="relative overflow-x-auto">
@@ -141,8 +141,8 @@
     </div>
 
     <div class="bg-white rounded-lg shadow">
-        <div class="p-6 border-b border-gray-200">
-            <h2 class="text-lg font-semibold text-gray-800">Quick Actions</h2>
+        <div class="p-6 border-b border-gray-200 bg-blue-600 rounded-t-lg">
+            <h2 class="text-lg font-semibold text-white">Aksi Cepat</h2>
         </div>
         <div class="p-6 space-y-3">
             <a href="/?page=students&action=add" class="flex items-center p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition">

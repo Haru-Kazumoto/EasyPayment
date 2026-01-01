@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Cara buat route:
  * Router::get('nama-page-di-url', 'NamaController', 'namaMethodDiController');
@@ -40,18 +41,17 @@ Router::get('bills', 'BillsController', 'index');
 
 // Bill Types Routes
 Router::get('bill-types', 'BillTypesController', 'index');
-Router::get('bill-types/create', 'BillTypesController', 'create');
+Router::get('bill-types/store', 'BillTypesController', 'store');
 
 // Student Routes
-Router::get('students', 'StudentController', 'index')->middleware('AdminGuard');
-Router::get('classes', 'StudentController', 'classes');
-Router::get('students/create', 'StudentController', 'create');
+Router::get('students', 'StudentController', 'index');
+Router::get('students/store', 'StudentController', 'store');
 
 // Logs Routes
 Router::get('payment-logs', 'LogController', 'index');
 
 // Logs Class
 // Router::get('classes', 'ClassesController', 'index');
-Router::get(page: 'classes', controller: 'ClassesController', method: 'index');
-Router::get('create-classes','ClassesController','create');
-Router::get('classes/store','ClassesController','store');
+Router::get('classes', 'ClassesController', 'index');
+Router::get('create-classes', 'ClassesController', 'create');
+Router::get('classes/store', 'ClassesController', 'store');

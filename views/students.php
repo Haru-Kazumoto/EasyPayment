@@ -9,7 +9,7 @@
                 <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
                     <li class="inline-flex items-center">
                         <a href="#" class="inline-flex items-center text-sm font-medium text-gray-400 hover:text-blue-600 ">
-                            Home
+                            Dashboard
                         </a>
                     </li>
                     <li>
@@ -17,27 +17,86 @@
                             <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
                             </svg>
-                            <a href="#" class="ms-1 text-sm font-medium text-gray-400 hover:text-blue-600  md:ms-2">Projects</a>
-                        </div>
-                    </li>
-                    <li aria-current="page">
-                        <div class="flex items-center">
-                            <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
-                            </svg>
-                            <span class="ms-1 text-sm font-medium text-blue-600 md:ms-2">Flowbite</span>
+                            <a href="#" class="ms-1 text-sm font-medium text-blue-600 md:ms-2">Daftar Siswa</a>
                         </div>
                     </li>
                 </ol>
             </nav>
         </div>
 
-        <a href="<?= url('students/create') ?>" type="button" class="text-white bg-blue-600 hover:bg-[#4285F4]/90 hover:transition-colors hover:transition-all focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center ">
+        <button data-modal-target="crud-modal" data-modal-toggle="crud-modal" class="text-white bg-blue-600 hover:bg-[#4285F4]/90 hover:transition-colors hover:transition-all focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center ">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 mr-3">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
             </svg>
             Tambah Siswa
-        </a> 
+        </button>
+
+        <!-- Main modal -->
+        <div id="crud-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+            <div class="relative p-4 w-full max-w-[50rem] max-h-full">
+                <!-- Modal content -->
+                <div class="relative bg-white rounded-lg shadow-sm">
+                    <!-- Modal header -->
+                    <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-200 bg-blue-600">
+                        <div class="flex flex-col">
+                            <h3 class="text-lg font-semibold text-white">
+                                Tambah Siswa Baru
+                            </h3>
+                            <span class="text-sm text-white">Isi data dengan seksama dan validasi sebelum submit</span>
+                        </div>
+                        <button type="button" class="text-white bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-toggle="crud-modal">
+                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                            </svg>
+                            <span class="sr-only">Close modal</span>
+                        </button>
+                    </div>
+                    <!-- Modal body -->
+                    <form class="p-4 md:p-5" action="<?= url('students/store') ?>" method="POST" >
+                        <div class="grid gap-4 mb-4 grid-cols-2 border-b pb-4">
+                            <div class="col-span-2">
+                                <label for="fullname" class="block mb-2 text-sm font-medium text-gray-900 ">Nama panjang siswa</label>
+                                <input type="text" name="fullname" id="fullname" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Abu Lahab" required="">
+                            </div>
+                            <div class="col-span-2 sm:col-span-1">
+                                <label for="nisn" class="block mb-2 text-sm font-medium text-gray-900 ">NISN</label>
+                                <input type="number" name="nisn" id="nisn" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="1293..." required="">
+                            </div>
+                            <div class="col-span-2 sm:col-span-1">
+                                <label for="classes" class="block mb-2 text-sm font-medium text-gray-900 ">Kelas Siswa</label>
+                                <select name="class_id" id="classes" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
+                                    <option selected="" disabled>Pilih Kelas</option>
+                                    <?php foreach ($classes as $class): ?>
+                                        <option value="<?= $class['id'] ?>"><?= htmlspecialchars($class['name']) ?> (<?= htmlspecialchars($class['code']) ?>)</option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="col-span-2 pt-2">
+                                <span class="text-lg font-semibold text-gray-900 mb-3">Data Akun Siswa</span>
+                                <div class="grid gap-4 mb-4 grid-cols-2 border-t pt-2">
+                                    <div class="col-span-1">
+                                        <label for="username" class="block mb-2 text-sm font-medium text-gray-900">Username Akun</label>
+                                        <input type="text" name="username" id="username" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Abu Lahab" required="">
+                                    </div>
+                                    <div class="col-span-1">
+                                        <label for="password" class="block mb-2 text-sm font-medium text-gray-900 ">Password Akun</label>
+                                        <input type="password" name="password" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="1293..." required="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <button type="submit" class="text-white inline-flex items-center bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ms-auto">
+                                <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path>
+                                </svg>
+                                Submit Data
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- content page -->
@@ -73,7 +132,7 @@
 
         <div class="relative overflow-x-auto sm:rounded-lg">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500">
-                <thead class="text-xs text-gray-700 uppercase bg-gray-100">
+                <thead class="text-xs text-white uppercase bg-blue-600">
                     <tr>
                         <th scope="col" class="px-6 py-3">
                             Nama Siswa
@@ -133,7 +192,5 @@
                 </tbody>
             </table>
         </div>
-
-
     </div>
 </div>
