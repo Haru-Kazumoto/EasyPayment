@@ -49,4 +49,8 @@ Router::get('classes', 'StudentController', 'classes');
 // Logs Routes
 Router::get('payment-logs', 'LogController', 'index');
 
-Router::get('classes', 'ClassesController', 'index');
+// Logs Class
+// Router::get('classes', 'ClassesController', 'index');
+Router::get(page: 'classes', controller: 'ClassesController', method: 'index');
+Router::get('create-classes','ClassesController','create');
+Router::get('classes/store','ClassesController','store');
