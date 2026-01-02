@@ -37,4 +37,17 @@ class Classes
 
         return $query->fetch(PDO::FETCH_ASSOC);
     }
+
+    public static function update(int $id, array $data)
+    {
+        $db = Database::getInstance()->pdo();
+
+        $query = $db->prepare(
+            "UPDATE classes SET code = :code, name = :name WHERE id = :id");
+
+        return $query->execute([
+            ':code' => $data['code'],
+            ':name' => $data['name'],
+            ':id'   => $id, ]);
+    }
 }
