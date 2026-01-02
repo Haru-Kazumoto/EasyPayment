@@ -9,9 +9,11 @@
                 Kelola pembayaran sekolah Anda dengan mudah
             </p>
         </div>
-        <div class="bg-white/20 backdrop-blur-sm rounded-lg px-4 py-3">
-            <p class="text-sm text-blue-100">Tahun Ajaran</p>
-            <p class="text-lg font-bold">2024/2025</p>
+        <div class="flex bg-white/20 backdrop-blur-sm rounded-lg px-4 py-3 w-full sm:w-auto">
+            <div class="flex flex-col mx-auto">
+                <p class="text-sm text-blue-100">Tahun Ajaran</p>
+                <p class="text-lg font-bold">2024/2025</p>
+            </div>
         </div>
     </div>
 </div>

@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <main class="bg-white sm:bg-gray-100 min-h-screen flex items-center justify-center">
+    <main class="bg-white sm:bg-gray-100 min-h-screen block sm:flex items-center justify-center">
         <?= $content ?>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>

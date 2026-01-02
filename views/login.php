@@ -1,25 +1,27 @@
 <div
-    class="w-full max-w-4xl bg-white sm:border border-gray-200 rounded-2xl
+    class="w-full max-w-4xl bg-white sm:border border-gray-200 sm:rounded-2xl 
            sm:shadow-lg overflow-hidden transition-all duration-300">
 
     <div class="grid grid-cols-1 md:grid-cols-2">
 
-        <div class="hidden md:relative md:block">
+        <!-- Background Section - Tampil di atas pada mobile, di samping pada desktop -->
+        <div class="relative md:block">
             <img
                 src="assets/img/background_login.png"
                 alt="Login background"
-                class="w-full h-full object-cover" />
+                class="w-full h-48 md:h-full object-cover" />
 
             <div class="absolute inset-0 bg-gradient-to-br from-blue-600/80 to-blue-900/80"></div>
 
-            <div class="absolute inset-0 flex flex-col justify-end p-8 text-white">
-                <h3 class="text-2xl font-bold">EasyPayment</h3>
-                <p class="text-sm text-blue-100 mt-1">
+            <div class="absolute inset-0 flex flex-col justify-end p-6 md:p-8 text-white">
+                <h3 class="text-xl md:text-2xl font-bold">EasyPayment</h3>
+                <p class="text-xs md:text-sm text-blue-100 mt-1">
                     Kelola pembayaran sekolah dengan mudah dan aman
                 </p>
             </div>
         </div>
 
+        <!-- Form Section -->
         <div class="p-6 sm:p-10">
             <form class="space-y-6" method="POST" action="?page=login">
 
