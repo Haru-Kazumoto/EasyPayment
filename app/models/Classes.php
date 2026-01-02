@@ -26,4 +26,19 @@ class Classes
 
         return $result;
     }
+
+    public static function find(int $id): array|false
+    {
+        $db = Database::getInstance()->pdo();
+
+        $query = $db->prepare(
+            "SELECT * FROM classes WHERE id = :id LIMIT 1"
+        );
+
+        $query->execute([
+            ':id' => $id
+        ]);
+
+        return $query->fetch();
+    }
 }

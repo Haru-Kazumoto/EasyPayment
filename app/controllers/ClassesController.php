@@ -43,7 +43,24 @@ class ClassesController extends Controller
      */
 
     // mengambil data lama untuk di fetch ke view
-    public function edit() {}
+    public function edit() 
+    {
+        if (!isset($_GET['id'])) {
+            header('Location: ' . url('classes'));
+            exit;
+        }
+
+        $class = Classes::find($_GET['id']);
+
+        if (!$class) {
+            header('Location: ' . url('classes'));
+            exit;
+        }
+
+        // passing data lama ke view
+        $this->view('edit-classes',['classes' => $class],  'admin');
+
+        }
 
     // logika update
     public function update() {}

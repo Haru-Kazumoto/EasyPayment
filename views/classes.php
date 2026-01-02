@@ -46,7 +46,7 @@
                    class="px-3 py-1 text-xs font-medium text-white bg-yellow-400 rounded hover:bg-yellow-500">
                     Edit
                 </a>
-                <a href="<?= url('classes/delete&id=' . $class['id']) ?>"
+                <a href="<?= url('edit-classes' . $class['id']) ?>"
                    onclick="return confirm('Yakin hapus data ini?')"
                    class="px-3 py-1 text-xs font-medium text-white bg-red-600 rounded hover:bg-red-700">
                     Hapus
