@@ -42,7 +42,7 @@
                 <?= date('Y-m-d', strtotime($class['created_at'])) ?>
             </td>
             <td class="px-6 py-4 text-center space-x-2">
-                <a href="<?= url('classes/edit&id=' . $class['id']) ?>"
+                <a href="<?= url('classes/edit' ,['id' =>$class['id']]) ?>"
                    class="px-3 py-1 text-xs font-medium text-white bg-yellow-400 rounded hover:bg-yellow-500">
                     Edit
                 </a>

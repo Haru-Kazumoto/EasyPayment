@@ -1,9 +1,8 @@
 <div class="max-w-xl mx-auto bg-white p-6 rounded-lg shadow">
     <h2 class="text-xl font-semibold text-gray-800 mb-6">Edit Kelas</h2>
 
-    <form method="GET">
-        <input type="hidden" name="page" value="classes/update">
-        <input type="hidden" name="id" value="<?= $class['id'] ?>">
+    <form action="<?= url('classes/update',['id' =>$class['id']]) ?>" method="POST">
+        <input type="hidden" name="_method" value="PATCH">
 
         <div class="mb-4">
             <label class="block mb-2 text-sm font-medium text-gray-700">

@@ -58,13 +58,40 @@ class ClassesController extends Controller
         }
 
         // passing data lama ke view
-        $this->view('edit-classes',['classes' => $class],  'admin');
+        $this->view('edit-classes',['class' => $class],  'admin');
 
         }
 
     // logika update
-    public function update() {}
+    public function update() 
+    {
+        $method=$_POST['_method']??$_SERVER['REQUEST_METHOD'];
+        if (
+        $method === 'PATCH'
+    ) {
+        $id = $_POST['id'] ?? null;
+
+        if (!$id) {
+            header('Location: ' . url('classes'));
+            exit;
+        }
+
+        $data = [
+            'name' => $_POST['name'] ?? '',
+            'code' => $_POST['code'] ?? '',
+        ];
+
+        Classes::update($id, $data);
+
+        header('Location: ' . url('classes'));
+        exit;
+    }
+
+    }
 
     // logika delete, gak perlu fetch data karna langsung passing id
-    public function delete() {}
+    public function delete() 
+    {
+        
+    }
 }
