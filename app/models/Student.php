@@ -43,16 +43,27 @@ class Student
     ]);
     }
 
-    public static function delete(int $id)
-    {
-        $db = Database::getInstance()->pdo();
-
-        $query = $db->prepare(
-            "DELETE FROM student WHERE id = :id");
-
-        return $query->execute([
-            ':id' => $id
-        ]);
+   public static function delete(int $id)
+{
+    $db = Database::getInstance()->pdo();
+    
+    $stmt = $db->prepare("SELECT user_id FROM student WHERE id = :id");
+    $stmt->execute([':id' => $id]);
+    $student = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    if ($student) {
+        // ini siswanya
+        $query = $db->prepare("DELETE FROM student WHERE id = :id");
+        $query->execute([':id' => $id]);
+        
+        // ini yg ada di table user yang terkait di user_id
+        $queryUser = $db->prepare("DELETE FROM users WHERE id = :user_id");
+        $queryUser->execute([':user_id' => $student['user_id']]);
+        
+        return true;
     }
+    
+    return false;
+}
 
 }

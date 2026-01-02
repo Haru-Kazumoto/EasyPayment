@@ -29,5 +29,6 @@ class User {
 
         return $db->lastInsertId();
     }
+
 }
 
