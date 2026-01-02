@@ -1,12 +1,6 @@
 <?php
 class StudentController extends Controller
 {
-    /**
-     * koreksi dari gue:
-     * 1. setelah ferdi udah selesai bikin method create di model Classes,
-     *   kita bisa manggil method itu di controller ini, jadi gak perlu hardcode manual lagi
-     * 2. gak perlu pake halaman khusus, cukup pake modal aja karna gak terlalu banyak form nya.
-     */
     public function index()
     {
         $students = Student::getAllStudents();
@@ -18,12 +12,6 @@ class StudentController extends Controller
         ], 'admin');
     }
 
-    /**
-     * koreksi dari gue:
-     * 1. pembuatan siswa harus disertai pembuatan user dulu, karna data siswa butuh user_id buat akun
-     * 2. join_date sama status dikasih nilai default dari model, gak perlu passing ke model
-     * 3. gak perlu panggil $this->view lagi, karna udah dihandle di header('Location')
-     */
     public function store()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -71,5 +59,15 @@ class StudentController extends Controller
     public function update() {}
 
     // logika delete, gak perlu fetch data karna langsung passing id
+   public function delete() 
+    {
+        if (isset($_GET['id'])) {
+        Student::delete($_GET['id']);
+    }
 
-}
+    header('Location: ' . url('students'));
+    exit;
+        
+    }
+
+}   
