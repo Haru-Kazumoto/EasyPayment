@@ -41,17 +41,19 @@
             <td class="px-6 py-4">
                 <?= date('Y-m-d', strtotime($class['created_at'])) ?>
             </td>
-            <td class="px-6 py-4 text-center space-x-2">
-                <a href="<?= url('classes/edit' ,['id' =>$class['id']]) ?>"
-                   class="px-3 py-1 text-xs font-medium text-white bg-yellow-400 rounded hover:bg-yellow-500">
-                    Edit
-                </a>
-                <a href="<?= url('edit-classes' . $class['id']) ?>"
-                   onclick="return confirm('Yakin hapus data ini?')"
-                   class="px-3 py-1 text-xs font-medium text-white bg-red-600 rounded hover:bg-red-700">
-                    Hapus
-                </a>
-            </td>
+<td class="px-6 py-4 text-center space-x-2">
+    <a href="<?= url('classes/edit', ['id' => $class['id']]) ?>"
+       class="px-3 py-1 text-xs font-medium text-white bg-yellow-400 rounded hover:bg-yellow-500">
+        Edit
+    </a>
+
+    <a href="<?= url('classes/delete', ['id' => $class['id']]) ?>"
+       onclick="return confirm('Yakin hapus data ini?')"
+       class="px-3 py-1 text-xs font-medium text-white bg-red-600 rounded hover:bg-red-700">
+        Hapus
+    </a>
+</td>
+
         </tr>
     <?php endforeach ?>
 <?php endif ?>

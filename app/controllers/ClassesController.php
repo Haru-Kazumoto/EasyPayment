@@ -92,6 +92,12 @@ class ClassesController extends Controller
     // logika delete, gak perlu fetch data karna langsung passing id
     public function delete() 
     {
+        if (isset($_GET['id'])) {
+        Classes::delete($_GET['id']);
+    }
+
+    header('Location: ' . url('classes'));
+    exit;
         
     }
 }

@@ -50,4 +50,16 @@ class Classes
             ':name' => $data['name'],
             ':id'   => $id, ]);
     }
+
+        public static function delete(int $id)
+    {
+        $db = Database::getInstance()->pdo();
+
+        $query = $db->prepare(
+            "DELETE FROM classes WHERE id = :id");
+
+        return $query->execute([
+            ':id' => $id
+        ]);
+    }
 }

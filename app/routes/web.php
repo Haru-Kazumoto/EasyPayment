@@ -57,3 +57,4 @@ Router::get('create-classes', 'ClassesController', 'create');
 Router::get('classes/store', 'ClassesController', 'store');
 Router::get('classes/edit','ClassesController','edit');
 Router::get('classes/update','ClassesController','update');
+Router::get('classes/delete','ClassesController','delete');
