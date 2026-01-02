@@ -18,14 +18,6 @@ class StudentController extends Controller
         ], 'admin');
     }
 
-    // ini gak dipake, hapus aja
-    public function create()
-    {
-        $classes = Classes::getAll();
-
-        $this->view('create-students', ['classes' => $classes], 'admin');
-    }
-
     /**
      * koreksi dari gue:
      * 1. pembuatan siswa harus disertai pembuatan user dulu, karna data siswa butuh user_id buat akun
@@ -79,5 +71,5 @@ class StudentController extends Controller
     public function update() {}
 
     // logika delete, gak perlu fetch data karna langsung passing id
-    public function delete() {}
+
 }
