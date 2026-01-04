@@ -1,14 +1,13 @@
 <?php
+require '../app/helpers/validate_id.php';
+
 class StudentController extends Controller
 {
     public function index()
     {
-        $students = Student::getAllStudents();
-        $classes = Classes::getAll();
-
         $this->view('students', [
-            'students' => $students,
-            'classes' => $classes
+            'students' => Student::getAllStudents(),
+            'classes' => Classes::getAll()
         ], 'admin');
     }
 
@@ -35,8 +34,147 @@ class StudentController extends Controller
 
             Student::create($student_data);
 
+            $_SESSION['flash_success'] = 'Berhasil menambahkan data!';
+
             header('Location: ' . url('students'));
             exit;
+        }
+    }
+
+    public function show()
+    {
+        $student_id = $_GET['student_id'];
+
+        try {
+            if (!$student_id) {
+                $this->error('ID Tidak ditemukan!', null, 400);
+            }
+
+            $student_data = Student::findOneWithAccountRelation($student_id);
+
+            if (!$student_data) {
+                $this->error('Data tidak ditemukan!', null, 400);
+            }
+
+            $this->success('Data berhasil diambil', $student_data);
+        } catch (\Exception $e) {
+            $this->error('Gagal mengambil data: ' . $e->getMessage(), null, 500);
+        }
+    }
+
+    public function getDetail()
+    {
+        try {
+            $id = $_GET['student_id'] ?? null;
+
+            if (!$id) {
+                $this->error('ID siswa tidak ditemukan', null, 400);
+            }
+
+            $student = Student::getById($id);
+
+            if (!$student) {
+                $this->error('Siswa tidak ditemukan', null, 404);
+            }
+
+            $this->success('Data berhasil diambil', $student);
+        } catch (Exception $e) {
+            $this->error('Gagal mengambil data: ' . $e->getMessage(), null, 500);
+        }
+    }
+
+    public function update()
+    {
+        try {
+            if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+                $this->error('Method not allowed', null, 405);
+            }
+
+            // Ambil student_id dari POST (bukan GET!)
+            $student_id = $_GET['student_id'] ?? null;
+
+            if (!$student_id) {
+                $this->error('ID siswa tidak ditemukan', null, 400);
+            }
+
+            // Validasi input
+            $errors = [];
+
+            $fullname = $_POST['edit_fullname'] ?? null;
+            $nisn = $_POST['edit_nisn'] ?? null;
+            $class_id = $_POST['edit_class_id'] ?? null;
+            $username = $_POST['edit_username'] ?? null;
+            $password = $_POST['edit_password'] ?? null; // Boleh kosong
+
+            if (empty($fullname)) $errors['fullname'] = 'Nama harus diisi';
+            if (empty($nisn)) $errors['nisn'] = 'NISN harus diisi';
+            if (empty($class_id)) $errors['class_id'] = 'Kelas harus dipilih';
+            if (empty($username)) $errors['username'] = 'Username harus diisi';
+
+            if (!empty($errors)) {
+                $this->error('Validasi gagal', $errors, 422);
+            }
+
+            // Get student data untuk ambil user_id
+            $student = Student::getById($student_id);
+
+            if (!$student) {
+                $this->error('Data siswa tidak ditemukan', null, 404);
+            }
+
+            // Gunakan database transaction untuk memastikan data konsisten
+            $db = Database::getInstance()->pdo();
+            $db->beginTransaction();
+
+            try {
+                // Update user data
+                $user_data = [
+                    'username' => $username
+                ];
+
+                // Hanya tambahkan password jika diisi
+                if (!empty($password)) {
+                    die('ada password: ' . $password);
+                    $user_data['password'] = $password;
+                }
+
+                $user_res = User::update($user_data, $student['user_id']);
+
+                if (!$user_res) {
+                    throw new Exception('Gagal memperbarui data pengguna');
+                }
+
+                // Update student data
+                $student_data = [
+                    'fullname'  => $fullname,
+                    'nisn'      => $nisn,
+                    'class_id'  => $class_id,
+                ];
+
+                // Tambahkan status jika ada
+                if (isset($_POST['edit_status'])) {
+                    $student_data['status'] = $_POST['edit_status'];
+                }
+
+                $student_res = Student::update($student_data, $student_id);
+
+                if (!$student_res) {
+                    throw new Exception('Gagal memperbarui data siswa');
+                }
+
+                // Commit transaction
+                $db->commit();
+
+                $_SESSION['flash_success'] = 'Berhasil memperbarui data!';
+
+                $this->success('Berhasil memperbarui data siswa');
+            } catch (Exception $e) {
+                // Rollback jika ada error
+                $db->rollBack();
+                throw $e;
+            }
+        } catch (Exception $e) {
+            $this->error($e->getMessage(), null, 500);
         }
     }
 
@@ -52,22 +190,30 @@ class StudentController extends Controller
      * delete data dari id yang dipilih, langsung DELETE aja gapapa.
      */
 
-    // mengambil data lama untuk di fetch ke view
-    public function edit() {}
-
     // logika update
-    public function update() {}
 
     // logika delete, gak perlu fetch data karna langsung passing id
-   public function delete() 
+    public function delete()
     {
-        if (isset($_GET['id'])) {
-        Student::delete($_GET['id']);
-    }
+        $method = $_POST['_method'] ?? $_SERVER['REQUEST_METHOD'];
 
-    header('Location: ' . url('students'));
-    exit;
-        
-    }
+        if ($method !== 'DELETE') {
+            header('Location: ' . url('students'));
+            exit;
+        }
 
-}   
+        $id = $_POST['id'] ?? null;
+
+        if (!$id) {
+            header('Location: ' . url('students'));
+            exit;
+        }
+
+        Student::delete($id);
+
+        $_SESSION['flash_success'] = "Data berhasil dihapus";
+
+        header('Location: ' . url('students'));
+        exit;
+    }
+}
