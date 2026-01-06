@@ -178,21 +178,6 @@ class StudentController extends Controller
         }
     }
 
-    /**
-     * silahkan lanjutkan untuk update dan delete
-     * update dan delete ini harus passing id dari data yang dipilih
-     * 
-     * logika update:
-     * ambil data dari id yang dipilih, fetch datanya, passing data lama ke view
-     * kalau di submit pakai PATCH aja, jangan PUT
-     * 
-     * logika delete: 
-     * delete data dari id yang dipilih, langsung DELETE aja gapapa.
-     */
-
-    // logika update
-
-    // logika delete, gak perlu fetch data karna langsung passing id
     public function delete()
     {
         $method = $_POST['_method'] ?? $_SERVER['REQUEST_METHOD'];
@@ -216,9 +201,9 @@ class StudentController extends Controller
         header('Location: ' . url('students'));
         exit;
     }
-    
-      function studentdetail()
-      {
+
+    function detail()
+    {
         if (!isset($_GET['id'])) {
             die('ID tidak ditemukan');
         }
@@ -226,10 +211,8 @@ class StudentController extends Controller
         $id = (int) $_GET['id'];
 
         $student = Student::getById($id);
+        $student_payments = [];
 
-        $this->view('detail-students',['student' => $student], 'admin');
-        
+        $this->view('detail-students', ['student' => $student, 'student_payments' => $student_payments], 'admin');
     }
-
-
 }

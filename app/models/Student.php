@@ -175,7 +175,7 @@ class Student
         $db = Database::getInstance()->pdo();
 
         $query = $db->prepare("
-            SELECT s.*, c.name as nama_kelas, c.code as kode_kelas, u.username, u.id as user_id
+            SELECT s.*, c.name as class_name, c.code as class_code, u.username, u.id as user_id
             FROM student s
             LEFT JOIN classes c ON s.class_id = c.id
             LEFT JOIN users u ON s.user_id = u.id

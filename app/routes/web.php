@@ -47,8 +47,7 @@ Router::get('bill-types/store', 'BillTypesController', 'store');
 Router::get('students', 'StudentController', 'index');
 Router::get('students/store', 'StudentController', 'store');
 Router::get('students/delete', 'StudentController', 'delete');
-
-
+Router::get('students/show', 'StudentController','detail');
 
 // Logs Routes
 Router::get('payment-logs', 'LogController', 'index');
