@@ -104,17 +104,7 @@ function isActiveStudent($page)
                             </div>
                             <ul class="py-2">
                                 <li>
-                                    <a href="/?page=student-profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                        <div class="flex items-center space-x-2">
-                                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
-                                            </svg>
-                                            <span>Profile Saya</span>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/?page=logout" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+                                    <a href="<?= url('logout') ?>" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50">
                                         <div class="flex items-center space-x-2">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
