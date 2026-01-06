@@ -36,7 +36,7 @@ function isActiveStudent($page)
 
 
                 <div class="hidden md:flex items-center space-x-1">
-                    <a href="/?page=dashboard-student"
+                    <a href="<?= url('dashboard-student') ?>"
                         class="px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200 <?= isActiveStudent('dashboard-student') ?>">
                         <div class="flex items-center space-x-2">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -45,7 +45,7 @@ function isActiveStudent($page)
                             <span>Dashboard</span>
                         </div>
                     </a>
-                    <a href="/?page=bills"
+                    <a href="<?= url('bills') ?>"
                         class="px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200 <?= isActiveStudent('bills') ?>">
                         <div class="flex items-center space-x-2">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -55,7 +55,7 @@ function isActiveStudent($page)
                             <span>Pembayaran</span>
                         </div>
                     </a>
-                    <a href="/?page=student-history"
+                    <a href="#"
                         class="px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200 <?= isActiveStudent('student-history') ?>">
                         <div class="flex items-center space-x-2">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">

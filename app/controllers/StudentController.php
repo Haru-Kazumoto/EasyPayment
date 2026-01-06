@@ -134,7 +134,6 @@ class StudentController extends Controller
 
                 // Hanya tambahkan password jika diisi
                 if (!empty($password)) {
-                    die('ada password: ' . $password);
                     $user_data['password'] = $password;
                 }
 
