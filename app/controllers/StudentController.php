@@ -216,4 +216,20 @@ class StudentController extends Controller
         header('Location: ' . url('students'));
         exit;
     }
+    
+      function studentdetail()
+      {
+        if (!isset($_GET['id'])) {
+            die('ID tidak ditemukan');
+        }
+
+        $id = (int) $_GET['id'];
+
+        $student = Student::getById($id);
+
+        $this->view('detail-students',['student' => $student], 'admin');
+        
+    }
+
+
 }
