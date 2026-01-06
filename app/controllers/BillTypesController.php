@@ -10,7 +10,7 @@ class BillTypesController extends Controller
         ], 'admin');
     }
 
-    public function create()
+    public function store()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = [
