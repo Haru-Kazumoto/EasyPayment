@@ -4,16 +4,8 @@ class BillsController extends Controller
     public function index()
     {
         $this->view('bills', [
-            'data_bills' => [
-                [
-                    'id' => 1,
-                    'title' => "SPP BULAN JANUARI",
-                    'subtitle' => "DESKRIPSI",
-                    'amount' => 700000,
-                    'due_date' => '2025-01-01 14:00:00',
-                    'type_name' => 'SPP'
-                ]
-            ]
+            'data_bills' => Bill::getAll()
+            
         ], 'student');
     }
 
@@ -156,5 +148,15 @@ class BillsController extends Controller
     private function getId(int $id)
     {
         return isset($id) ? (int) $id : null;
+    }
+
+    public function show()
+    {
+        $bill_id = $this->getId($_GET['bill_id']);
+        $this->view('detail-bills', [
+            'bill' => Bill::findOne($bill_id),
+            'students_payer' => Bill::getStudentsByBill($bill_id)
+            
+        ], 'student');
     }
 }

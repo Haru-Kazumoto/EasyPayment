@@ -110,4 +110,27 @@ class Bill
             ':id' => $id
         ]);
     }
+
+    public static function getStudentsByBill(int $billId): array
+{
+    $db = Database::getInstance()->pdo();
+
+    $query = $db->prepare(
+        'SELECT 
+            s.id,
+            s.fullname,
+            s.nisn
+        FROM student_bills sb
+        INNER JOIN student s 
+            ON sb.student_id = s.id
+        WHERE sb.bill_id = :bill_id'
+    );
+
+    $query->execute([
+        ':bill_id' => $billId
+    ]);
+
+    return $query->fetchAll(PDO::FETCH_ASSOC);
+}
+
 }

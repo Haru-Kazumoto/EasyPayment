@@ -43,6 +43,7 @@ Router::get('bills/create', 'BillsController', 'create');
 Router::get('bills/store', 'BillsController', 'store');
 Router::get('bills/edit', 'BillsController', 'edit');
 Router::get('bills/delete', 'BillsController', 'delete');
+Router::get('bills/show','BillsController','show');
 
 // Bill Types Routes
 Router::get('bill-types', 'BillTypesController', 'index');
@@ -64,3 +65,4 @@ Router::get('classes', 'ClassesController', 'index');
 Router::get('create-classes', 'ClassesController', 'create');
 Router::get('classes/store', 'ClassesController', 'store');
 Router::get('classes/delete','ClassesController','delete');
+

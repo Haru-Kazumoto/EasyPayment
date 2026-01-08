@@ -53,7 +53,7 @@
                                         <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                             <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
                                         </svg>
-                                        Jatuh tempo: <?= $bill['due_date'] ?>
+                                        Jatuh tempo: <?= format_date($bill['created_at'],false) ?>
                                     </div>
                                     <div class="flex items-center text-red-600">
                                         <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
@@ -66,9 +66,10 @@
                         </div>
                         <div class="flex flex-col sm:items-end gap-3">
                             <div class="text-right">
-                                <p class="text-2xl font-bold text-gray-800"><?= $bill['amount'] ?></p>
+                                <p class="text-2xl font-bold text-gray-800">
+                                Rp <?= number_format($bill['amount'], 0, ',', '.') ?></p>
                             </div>
-                            <a href="/?page=student-bills&action=pay&id=1" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors duration-200">
+                            <a href="<?= url('bills/show', ['bill_id' => $bill['id']]) ?>" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors duration-200">
                                 Bayar Sekarang
                             </a>
                         </div>
