@@ -3,7 +3,18 @@ class BillsController extends Controller
 {
     public function index()
     {
-        $this->view('bills', [], 'student');
+        $this->view('bills', [
+            'data_bills' => [
+                [
+                    'id' => 1,
+                    'title' => "SPP BULAN JANUARI",
+                    'subtitle' => "DESKRIPSI",
+                    'amount' => 700000,
+                    'due_date' => '2025-01-01 14:00:00',
+                    'type_name' => 'SPP'
+                ]
+            ]
+        ], 'student');
     }
 
     public function indexAdmin()

@@ -155,8 +155,8 @@ function isActiveStudent($page)
     </nav>
 
 
-    <main class="pt-20 pb-8 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <main class="pt-20 pb-8 bg-gray-50 min-h-screen">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
             <?= $content ?>
         </div>
     </main>
