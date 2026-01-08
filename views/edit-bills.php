@@ -33,7 +33,8 @@
         </div>
     </div>
 
-    <form action="<?= url('bills/store') ?>" method="POST" class="flex flex-col gap-4">
+    <form id="editBillForm" class="flex flex-col gap-4">
+        <input type="hidden" name="id" id="id" value="<?= $bill['id'] ?>">
 
         <div class="grid grid-cols-5 gap-4">
             <!-- Informasi Dasar -->
@@ -45,14 +46,14 @@
                         <label for="title" class="block mb-2 text-sm font-medium text-gray-900">
                             Nama Tagihan <span class="text-red-500">*</span>
                         </label>
-                        <input type="text" id="title" name="title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Contoh: SPP Bulan Januari 2024" required>
+                        <input type="text" id="title" name="title" value="<?= $bill['title'] ?>" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Contoh: SPP Bulan Januari 2024" required>
                     </div>
 
                     <div class="md:col-span-2">
                         <label for="subtitle" class="block mb-2 text-sm font-medium text-gray-900">
                             Keterangan Tagihan
                         </label>
-                        <textarea id="subtitle" name="subtitle" rows="3" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Tambahkan keterangan atau deskripsi tagihan (opsional)"></textarea>
+                        <textarea id="subtitle" name="subtitle" rows="3" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Tambahkan keterangan atau deskripsi tagihan (opsional)"><?= $bill['subtitle'] ?></textarea>
                     </div>
 
                     <div>
@@ -62,7 +63,9 @@
                         <select id="type_id" name="type_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
                             <option value="" selected disabled>Pilih jenis tagihan</option>
                             <?php foreach ($types as $index => $type): ?>
-                                <option value="<?= $type['id'] ?>"><?= $type['name'] ?> (<?= $type['code'] ?>)</option>
+                                <option value="<?= $type['id'] ?>" <?= ($type['id'] == $bill['type_id']) ? 'selected' : '' ?>>
+                                    <?= $type['name'] ?> (<?= $type['code'] ?>)
+                                </option>
                             <?php endforeach ?>
                         </select>
                     </div>
@@ -75,7 +78,7 @@
                             <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
                                 <span class="text-gray-500 text-sm">Rp</span>
                             </div>
-                            <input type="number" id="amount" name="amount" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-8 p-2.5" placeholder="0" min="0" required>
+                            <input type="number" id="amount" name="amount" value="<?= $bill['amount'] ?>" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-8 p-2.5" placeholder="0" min="0" required>
                         </div>
                     </div>
                 </div>
@@ -87,24 +90,38 @@
                         <label for="academic_year" class="block mb-2 text-sm font-medium text-gray-900">
                             Tahun Ajaran <span class="text-red-500">*</span>
                         </label>
-                        <select id="academic_year" name="academic_year" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
-                            <option value="" selected disabled>Pilih tahun ajaran</option>
-                            <option value="2026/2025">2026/2025</option>
-                            <option value="2026/2027" selected>2026/2027</option>
-                            <option value="2027/2028">2027/2028</option>
+                        <select id="academic_year" name="academic_year"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                            required>
+                            <option value="" disabled>Pilih tahun ajaran</option>
+
+                            <option value="2026/2025"
+                                <?= ($bill['academic_year'] === '2026/2025') ? 'selected' : '' ?>>
+                                2026/2025
+                            </option>
+
+                            <option value="2026/2027"
+                                <?= ($bill['academic_year'] === '2026/2027') ? 'selected' : '' ?>>
+                                2026/2027
+                            </option>
+
+                            <option value="2027/2028"
+                                <?= ($bill['academic_year'] === '2027/2028') ? 'selected' : '' ?>>
+                                2027/2028
+                            </option>
                         </select>
+
                     </div>
 
                     <div>
                         <label for="due_date" class="block mb-2 text-sm font-medium text-gray-900">
                             Tanggal Jatuh Tempo <span class="text-red-500">*</span>
                         </label>
-                        <input type="date" id="due_date" name="due_date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
+                        <input type="date" id="due_date" name="due_date" value="<?= $bill['due_date'] ?>" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
                     </div>
                 </div>
             </div>
 
-            <!-- Detail summary data -->
             <!-- Summary Tagihan -->
             <div class="col-span-2 p-6 rounded-lg border border-gray-200 bg-white shadow sticky top-6">
                 <h3 class="text-lg font-semibold text-gray-900 mb-4">Ringkasan Tagihan</h3>
@@ -162,35 +179,101 @@
         </div>
     </form>
 </div>
-
 <script>
+    const BASE_URL = '<?= url('bills/update') ?>';
+
     const title = document.getElementById('title');
     const type = document.getElementById('type_id');
     const amount = document.getElementById('amount');
     const academicYear = document.getElementById('academic_year');
     const dueDate = document.getElementById('due_date');
 
+    const summaryTitle = document.getElementById('summary-title');
+    const summaryType = document.getElementById('summary-type');
+    const summaryAmount = document.getElementById('summary-amount');
+    const summaryAcademicYear = document.getElementById('summary-academic-year');
+    const summaryDueDate = document.getElementById('summary-due-date');
+
     const formatRupiah = (value) =>
         'Rp ' + (value || 0).toLocaleString('id-ID');
 
-    title.addEventListener('input', e =>
-        document.getElementById('summary-title').textContent = e.target.value || '-'
-    );
+    function renderSummary() {
+        summaryTitle.textContent = title.value || '-';
 
-    type.addEventListener('change', e =>
-        document.getElementById('summary-type').textContent =
-        e.target.options[e.target.selectedIndex].text || '-'
-    );
+        summaryType.textContent =
+            type.options[type.selectedIndex]?.text || '-';
 
-    amount.addEventListener('input', e =>
-        document.getElementById('summary-amount').textContent = formatRupiah(parseInt(e.target.value))
-    );
+        summaryAmount.textContent =
+            formatRupiah(parseInt(amount.value));
 
-    academicYear.addEventListener('change', e =>
-        document.getElementById('summary-academic-year').textContent = e.target.value || '-'
-    );
+        summaryAcademicYear.textContent =
+            academicYear.value || '-';
 
-    dueDate.addEventListener('change', e => {
-        document.getElementById('summary-due-date').textContent = e.target.value || '-'
+        summaryDueDate.textContent =
+            dueDate.value || '-';
+    }
+
+    title.addEventListener('input', renderSummary);
+    type.addEventListener('change', renderSummary);
+    amount.addEventListener('input', renderSummary);
+    academicYear.addEventListener('change', renderSummary);
+    dueDate.addEventListener('change', renderSummary);
+
+    document.addEventListener('DOMContentLoaded', renderSummary);
+</script>
+
+<!--- AJAX SCRIPT --->
+<script>
+    const UPDATE_URL = '<?= url("bills/update") ?>';
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('editBillForm');
+
+        if (!form) {
+            console.error('Form editBillForm tidak ditemukan');
+            return;
+        }
+
+        form.addEventListener('submit', handleSubmit);
     });
+
+    function getBillIdFromUrl() {
+        const params = new URLSearchParams(window.location.search);
+        return params.get('bill_id');
+    }
+
+    async function handleSubmit(e) {
+        e.preventDefault();
+
+        const billId = document.getElementById('id').value;
+
+        if (!billId) {
+            alert('Bill ID tidak ditemukan');
+            return;
+        }
+
+        const formData = new FormData(e.target);
+
+        try {
+            const response = await fetch(`${UPDATE_URL}&bill_id=${billId}`, {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: formData
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                window.location.href = '<?= url('admin-bills') ?>'
+            } else {
+                alert(result.message || 'Gagal mengupdate data');
+            }
+
+        } catch (error) {
+            console.error('Error : ', error);
+            alert('Terjadi kesalahan saat menyimpan data');
+        }
+    }
 </script>

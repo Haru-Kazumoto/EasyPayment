@@ -9,6 +9,11 @@ Router::api('classes/detail', 'ClassesController', 'show');
 Router::api('classes/update', 'ClassesController', 'update');
 
 // BILL TYPES
+Router::api('bill-types/detail', 'BillTypesController', 'show');
+Router::api('bill-types/update', 'BillTypesController', 'update');
+
+// BILL
+Router::api('bills/update', 'BillsController', 'update');
 
 // TRANSACTION
 

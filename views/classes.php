@@ -1,5 +1,3 @@
-
-
 <div class="flex flex-col gap-3">
 
     <div class="flex justify-between items-center p-2">
@@ -162,9 +160,13 @@
                 </thead>
                 <tbody>
                     <?php if (empty($classes)): ?>
-                        <tr class="bg-white border-b border-gray-200 hover:bg-gray-100 text-gray-900 font-medium whitespace-nowrap">
-                            <td colspan="5" class="px-6 py-4 text-center">
-                                Data kelas belum tersedia.
+                        <tr class="bg-white border-b hover:bg-gray-50">
+                            <td colspan="8" class="px-6 py-12 text-center text-gray-500">
+                                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                                <p class="mt-2 font-medium">Tidak ada data kelas</p>
+                                <p class="text-xs">Silakan tambahkan kelas baru</p>
                             </td>
                         </tr>
                     <?php endif; ?>
@@ -183,21 +185,20 @@
                                 <?= format_date($class['created_at']) ?>
                             </td>
                             <td class="px-6 py-4 flex gap-4">
-                                <button onclick="editClass(<?= $class['id'] ?>)" class="font-medium text-blue-600">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                                <button onclick="editClass(<?= $class['id'] ?>)" type="button" class="text-yellow-600 hover:text-yellow-800 hover:bg-yellow-50 p-2 rounded-lg transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                                     </svg>
                                 </button>
-                                <button
-                                    data-modal-target="delete-modal"
+                                <button data-modal-target="delete-modal"
                                     data-modal-toggle="delete-modal"
                                     data-id="<?= $class['id'] ?>"
-                                    data-name="<?= htmlspecialchars($class['name']) ?>"
-                                    class="delete-btn font-medium text-red-600">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                    data-name="<?= htmlspecialchars($class['name']) ?>" type="button" class="delete-btn text-red-600 hover:text-red-800 hover:bg-red-50 p-2 rounded-lg transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
                                     </svg>
                                 </button>
+
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -235,7 +236,7 @@
 
                         <!-- Modal body -->
                         <form id="editClassesForm" class="p-4 md:p-5 flex flex-col gap-4">
-                            <input type="hidden" name="edit_student_id" id="edit_classes_id">
+                            <input type="hidden" name="edit_classes_id" id="edit_classes_id">
 
                             <div class="grid gap-4 mb-4 grid-cols-2">
                                 <div class="col-span-2">
@@ -436,5 +437,4 @@
             alert('Terjadi kesalahan saat menyimpan data');
         }
     }
-    
 </script>

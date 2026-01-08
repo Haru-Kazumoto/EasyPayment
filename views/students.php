@@ -192,49 +192,55 @@ function statusColor(string $status)
                 </thead>
                 <tbody>
 
-                    <?php foreach ($students as $index => $student): ?>
-                        <tr class="bg-white border-b border-gray-200 hover:bg-gray-100 text-gray-900 font-medium whitespace-nowrap">
-                            <th class="px-6 py-4"><?= $index + 1 ?></th>
-                            <th class="px-6 py-4"><?= htmlspecialchars($student['fullname']) ?></th>
-                            <td class="px-6 py-4"><?= htmlspecialchars($student['nisn']) ?></td>
-                            <td class="px-6 py-4"><?= htmlspecialchars($student['nama_kelas']) ?></td>
-                            <td class="px-6 py-4">
-                                <span class="text-xs font-medium px-3 py-1 rounded-lg text-white <?= statusColor($student['status']) ?>">
-                                    <?= $student['status'] ?? 'BELUM DITAMBAHKAN' ?>
-                                </span>
-                            </td>
-                            <td class="px-6 py-4"><?= format_date($student['join_date'], false) ?></td>
-                            <td class="px-6 py-4 flex gap-4 items-center">
-
-                                <button onclick="editStudent(<?= $student['id'] ?>)" class="font-medium text-blue-600">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
-                                    </svg>
-                                </button>
-
-                                <button data-modal-target="delete-modal"
-                                    data-modal-toggle="delete-modal"
-                                    data-id="<?= $student['id'] ?>"
-                                    data-name="<?= htmlspecialchars($student['fullname']) ?>"
-                                    class="delete-btn text-red-600">
-
-                                    <!-- icon delete -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7h6m2 0H7m2-3h6a1 1 0 011 1v1H8V5a1 1 0 011-1z" />
-                                    </svg>
-                                </button>
-
-                                <a href="<?= url('students/show', ['id' => $student['id']]) ?>" class="font-medium text-yellow-600">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
-                                    </svg>
-                                </a>
+                    <?php if (empty($students)): ?>
+                        <tr class="bg-white border-b hover:bg-gray-50">
+                            <td colspan="8" class="px-6 py-12 text-center text-gray-500">
+                                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                                <p class="mt-2 font-medium">Tidak ada data tagihan</p>
+                                <p class="text-xs">Silakan tambahkan tagihan baru</p>
                             </td>
                         </tr>
-                    <?php endforeach; ?>
+                    <?php else: ?>
+                        <?php foreach ($students as $index => $student): ?>
+                            <tr class="bg-white border-b border-gray-200 hover:bg-gray-100 text-gray-900 font-medium whitespace-nowrap">
+                                <th class="px-6 py-4"><?= $index + 1 ?></th>
+                                <th class="px-6 py-4"><?= htmlspecialchars($student['fullname']) ?></th>
+                                <td class="px-6 py-4"><?= htmlspecialchars($student['nisn']) ?></td>
+                                <td class="px-6 py-4"><?= htmlspecialchars($student['nama_kelas']) ?></td>
+                                <td class="px-6 py-4">
+                                    <span class="text-xs font-medium px-3 py-1 rounded-lg text-white <?= statusColor($student['status']) ?>">
+                                        <?= $student['status'] ?? 'BELUM DITAMBAHKAN' ?>
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4"><?= format_date($student['join_date'], false) ?></td>
+                                <td class="px-6 py-4 flex gap-4 items-center">
 
+                                    <a href="<?= url('students/show', ['id' => $student['id']]) ?>" class="text-blue-600 hover:text-blue-800 hover:bg-blue-50 p-2 rounded-lg transition-colors" title="Lihat Detail">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                    </a>
+                                    <button onclick="editStudent(<?= $student['id'] ?>)" type="button" class="text-yellow-600 hover:text-yellow-800 hover:bg-yellow-50 p-2 rounded-lg transition-colors" title="Edit">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                                        </svg>
+                                    </button>
+                                    <button data-modal-target="delete-modal"
+                                        data-modal-toggle="delete-modal"
+                                        data-id="<?= $student['id'] ?>"
+                                        data-name="<?= htmlspecialchars($student['fullname']) ?>" type="button" class="delete-btn text-red-600 hover:text-red-800 hover:bg-red-50 p-2 rounded-lg transition-colors" title="Hapus">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                                        </svg>
+                                    </button>
+
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php endif ?>
                 </tbody>
             </table>
 
@@ -436,7 +442,6 @@ function statusColor(string $status)
         document.getElementById('edit_password').value = '';
         document.getElementById('edit_status').value = data.status;
 
-        console.log(data);
     }
 
     function clearForm() {

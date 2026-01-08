@@ -38,10 +38,16 @@ Router::get('dashboard-student', 'DashboardController', 'student')->middleware('
 
 // Payment Routes
 Router::get('bills', 'BillsController', 'index');
+Router::get('admin-bills', 'BillsController', 'indexAdmin');
+Router::get('bills/create', 'BillsController', 'create');
+Router::get('bills/store', 'BillsController', 'store');
+Router::get('bills/edit', 'BillsController', 'edit');
+Router::get('bills/delete', 'BillsController', 'delete');
 
 // Bill Types Routes
 Router::get('bill-types', 'BillTypesController', 'index');
 Router::get('bill-types/store', 'BillTypesController', 'store');
+Router::get('bill-types/delete', 'BillTypesController', 'delete');
 
 // Student Routes
 Router::get('students', 'StudentController', 'index');
