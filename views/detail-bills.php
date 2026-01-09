@@ -177,8 +177,9 @@
             </div>
         </div>
     </div>
-
+    
     <!-- Card Riwayat Transaksi Pembayaran -->
+     <?php if ($data_bill['student_bill_id']): ?>
     <div class="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden mt-6">
         <!-- Header Card -->
         <div class="bg-gradient-to-r from-green-600 to-green-700 px-6 py-4">
@@ -391,6 +392,8 @@
             </div>
         </div>
     </div>
+    <?php endif?>
+
 </div>
 
 <script>
