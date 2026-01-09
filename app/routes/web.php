@@ -44,6 +44,7 @@ Router::get('bills/store', 'BillsController', 'store');
 Router::get('bills/edit', 'BillsController', 'edit');
 Router::get('bills/delete', 'BillsController', 'delete');
 Router::get('bills/show','BillsController','show');
+Router::get('bills/register','BillsController','register');
 
 // Bill Types Routes
 Router::get('bill-types', 'BillTypesController', 'index');

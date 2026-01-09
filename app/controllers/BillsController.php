@@ -160,4 +160,28 @@ class BillsController extends Controller
             'transactions' => Transaction::getTransactionsByBillAndStudent($bill_id, $student_id['id'])
         ], 'student');
     }
+
+    public function register()
+    {
+        // ambil student berdasarkan user login
+        $student = Student::findOneByUser(auth()['id']);
+
+        // validasi
+        if (!$student || !isset($_GET['bill_id'])) {
+            header('Location: ' . url('bills'));
+            exit;
+        }
+
+        $data = [
+            'student_id' => $student['id'],
+            'bill_id'    => (int) $_GET['bill_id'],
+        ];
+
+        // simpan ke student_bills
+        StudentBills::register($data);
+
+        header('Location: ' . url('bills'));
+        exit;
+    }
+
 }
