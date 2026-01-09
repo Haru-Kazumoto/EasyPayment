@@ -4,7 +4,7 @@ class BillsController extends Controller
     public function index()
     {
         $curr_student_id = Student::findOneByUser(auth()['id']);
-        
+
         $this->view('bills', [
             'data_bills' => Bill::getAllWithStudentInformation($curr_student_id['id'])
         ], 'student');
@@ -154,7 +154,9 @@ class BillsController extends Controller
     public function show()
     {
         $bill_id = $this->getId($_GET['bill_id']);
+
         $student_id = Student::findOneByUser(auth()['id']);
+
         $this->view('detail-bills', [
             'data_bill' => Bill::findOneWithPaymentStatus($bill_id, $student_id['id']),
             'transactions' => Transaction::getTransactionsByBillAndStudent($bill_id, $student_id['id'])
@@ -163,10 +165,8 @@ class BillsController extends Controller
 
     public function register()
     {
-        // ambil student berdasarkan user login
         $student = Student::findOneByUser(auth()['id']);
 
-        // validasi
         if (!$student || !isset($_GET['bill_id'])) {
             header('Location: ' . url('bills'));
             exit;
@@ -177,11 +177,11 @@ class BillsController extends Controller
             'bill_id'    => (int) $_GET['bill_id'],
         ];
 
-        // simpan ke student_bills
         StudentBills::register($data);
 
-        header('Location: ' . url('bills'));
+        $_SESSION['flash_success'] = 'Berhasil registrasi pembayaran!';
+
+        header('Location: ' . url('bills/show', ['bill_id' => $data['bill_id']]));
         exit;
     }
-
 }
