@@ -3,9 +3,10 @@ class BillsController extends Controller
 {
     public function index()
     {
+        $curr_student_id = Student::findOneByUser(auth()['id']);
+        
         $this->view('bills', [
-            'data_bills' => Bill::getAll()
-            
+            'data_bills' => Bill::getAllWithStudentInformation($curr_student_id['id'])
         ], 'student');
     }
 
@@ -153,10 +154,10 @@ class BillsController extends Controller
     public function show()
     {
         $bill_id = $this->getId($_GET['bill_id']);
+        $student_id = Student::findOneByUser(auth()['id']);
         $this->view('detail-bills', [
-            'bill' => Bill::findOne($bill_id),
-            'students_payer' => Bill::getStudentsByBill($bill_id)
-            
+            'data_bill' => Bill::findOneWithPaymentStatus($bill_id, $student_id['id']),
+            'transactions' => Transaction::getTransactionsByBillAndStudent($bill_id, $student_id['id'])
         ], 'student');
     }
 }

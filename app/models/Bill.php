@@ -37,7 +37,9 @@ class Bill
     {
         $db = Database::getInstance()->pdo();
 
-        $query = $db->prepare('SELECT b.*, bt.name AS type_name FROM bills b INNER JOIN bills_type bt ON b.type_id = bt.id WHERE b.id = :bill_id');
+        $query = $db->prepare("
+            SELECT b.*, bt.name AS type_name FROM bills b INNER JOIN bills_type bt ON b.type_id = bt.id WHERE b.id = :bill_id
+        ");
 
         $query->execute([
             ':bill_id' => $id
@@ -45,6 +47,91 @@ class Bill
 
         return $query->fetch(PDO::FETCH_ASSOC);
     }
+
+    public static function findOneWithPaymentStatus(int $bill_id, int $student_id)
+    {
+        $db = Database::getInstance()->pdo();
+
+        $sql = "
+            SELECT
+                b.id AS bill_id,
+                b.title,
+                b.subtitle,
+                b.amount,
+                b.due_date,
+                b.academic_year,
+                bt.name as type_name,
+
+                sb.id AS student_bill_id,
+
+                CAST(COALESCE(SUM(t.amount), 0) AS SIGNED) AS total_paid,
+
+                CASE
+                    WHEN COALESCE(SUM(t.amount), 0) >= b.amount THEN 'LUNAS'
+
+                    WHEN sb.id IS NOT NULL
+                        AND NOW() >= b.due_date
+                        AND COALESCE(SUM(t.amount), 0) < b.amount
+                    THEN 'JATUH TEMPO'
+
+                    WHEN sb.id IS NULL THEN 'BELUM TEREGISTRASI'
+
+                    WHEN COALESCE(SUM(t.amount), 0) = 0 THEN 'BELUM TERBAYAR'
+
+                    WHEN COALESCE(SUM(t.amount), 0) < b.amount THEN 'PEMBAYARAN BERTAHAP'
+
+                    ELSE 'UNKNOWN'
+                END AS status,
+
+                CASE
+                    WHEN COALESCE(SUM(t.amount), 0) >= b.amount THEN 'green'
+
+                    WHEN sb.id IS NOT NULL
+                        AND NOW() >= b.due_date
+                        AND COALESCE(SUM(t.amount), 0) < b.amount
+                    THEN 'red'
+
+                    WHEN sb.id IS NULL THEN 'yellow'
+
+                    WHEN COALESCE(SUM(t.amount), 0) = 0 THEN 'orange'
+
+                    WHEN COALESCE(SUM(t.amount), 0) < b.amount THEN 'blue'
+
+                    ELSE 'gray'
+                END AS color
+
+            FROM bills b
+
+            LEFT JOIN student_bills sb
+                ON sb.bill_id = b.id
+                AND sb.student_id = :student_id
+
+            LEFT JOIN transaction t
+                ON t.bill_id = b.id
+                AND t.student_id = :student_id
+                AND t.approved_at IS NOT NULL
+
+            INNER JOIN bills_type as bt
+                ON bt.id = b.type_id           
+
+            WHERE b.id = :bill_id
+
+            GROUP BY
+                b.id,
+                sb.id,
+                bt.id
+            LIMIT 1
+        ";
+
+        $query = $db->prepare($sql);
+        $query->execute([
+            'bill_id'    => $bill_id,
+            'student_id' => $student_id
+        ]);
+
+        return $query->fetch(\PDO::FETCH_ASSOC);
+    }
+
 
     public static function update(array $data, int $id)
     {
@@ -111,12 +198,88 @@ class Bill
         ]);
     }
 
-    public static function getStudentsByBill(int $billId): array
-{
-    $db = Database::getInstance()->pdo();
+    public static function getAllWithStudentInformation(int $student_id)
+    {
+        $db = Database::getInstance()->pdo();
 
-    $query = $db->prepare(
-        'SELECT 
+        $query = $db->prepare("
+            SELECT
+                b.id AS bill_id,
+                b.title,
+                b.subtitle,
+                b.amount AS bill_amount,
+                b.due_date,
+                b.academic_year,
+
+                sb.id AS student_bill_id,
+
+                CAST(COALESCE(SUM(t.amount), 0) AS SIGNED) AS total_paid,
+
+                CASE
+                    WHEN COALESCE(SUM(t.amount), 0) >= b.amount THEN 'LUNAS'
+
+                    WHEN sb.id IS NOT NULL
+                        AND NOW() >= b.due_date
+                        AND COALESCE(SUM(t.amount), 0) < b.amount
+                    THEN 'JATUH TEMPO'
+
+                    WHEN sb.id IS NULL THEN 'BELUM TEREGISTRASI'
+
+                    WHEN COALESCE(SUM(t.amount), 0) = 0 THEN 'BELUM TERBAYAR'
+
+                    WHEN COALESCE(SUM(t.amount), 0) < b.amount THEN 'PEMBAYARAN BERTAHAP'
+
+                    ELSE 'UNKNOWN'
+                END AS status,
+
+                CASE
+                    WHEN COALESCE(SUM(t.amount), 0) >= b.amount THEN 'green'
+
+                    WHEN sb.id IS NOT NULL
+                        AND NOW() >= b.due_date
+                        AND COALESCE(SUM(t.amount), 0) < b.amount
+                    THEN 'red'
+
+                    WHEN sb.id IS NULL THEN 'yellow'
+
+                    WHEN COALESCE(SUM(t.amount), 0) = 0 THEN 'orange'
+
+                    WHEN COALESCE(SUM(t.amount), 0) < b.amount THEN 'blue'
+
+                    ELSE 'gray'
+                END AS color
+
+            FROM bills b
+
+            LEFT JOIN student_bills sb
+                ON sb.bill_id = b.id
+                AND sb.student_id = :student_id
+
+            LEFT JOIN transaction t
+                ON t.bill_id = b.id
+                AND t.student_id = :student_id
+                AND t.approved_at IS NOT NULL
+
+            GROUP BY
+                b.id,
+                sb.id 
+            ORDER BY
+                b.due_date ASC;
+        ");
+
+        $query->execute([
+            ':student_id' => $student_id
+        ]);
+
+        return $query->fetchAll();
+    }
+
+    public static function getStudentsByBill(int $billId): array
+    {
+        $db = Database::getInstance()->pdo();
+
+        $query = $db->prepare(
+            'SELECT 
             s.id,
             s.fullname,
             s.nisn
@@ -124,13 +287,12 @@ class Bill
         INNER JOIN student s 
             ON sb.student_id = s.id
         WHERE sb.bill_id = :bill_id'
-    );
+        );
 
-    $query->execute([
-        ':bill_id' => $billId
-    ]);
+        $query->execute([
+            ':bill_id' => $billId
+        ]);
 
-    return $query->fetchAll(PDO::FETCH_ASSOC);
-}
-
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

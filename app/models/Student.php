@@ -65,6 +65,17 @@ class Student
         return $student;
     }
 
+    public static function findOneByUser(int $user_id)
+    {
+        $db = Database::getInstance()->pdo();
+
+        $query = $db->prepare("SELECT * FROM student WHERE user_id = :user_id LIMIT 1");
+
+        $query->execute([':user_id' => $user_id]);
+
+        return $query->fetch(PDO::FETCH_ASSOC);
+    }
+
     public static function create($data)
     {
         $db = Database::getInstance()->pdo();
