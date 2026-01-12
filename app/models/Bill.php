@@ -13,6 +13,17 @@ class Bill
         return $query->fetchAll();
     }
 
+    public static function getLatest()
+    {
+        $db = Database::getInstance()->pdo();
+
+        $query = $db->query('SELECT * FROM bills b ORDER BY b.created_at DESC LIMIT 5');
+
+        $query->execute();
+
+        return $query->fetchAll();
+    }
+
     public static function create(array $data)
     {
         $db = Database::getInstance()->pdo();
@@ -294,5 +305,16 @@ class Bill
         ]);
 
         return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function sumAmount()
+    {
+        $db = Database::getInstance()->pdo();
+
+        $query = $db->prepare('SELECT SUM(b.amount) as total FROM bills b');
+
+        $query->execute();
+
+        return $query->fetch(PDO::FETCH_ASSOC);
     }
 }

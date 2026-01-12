@@ -55,22 +55,13 @@ function isActiveStudent($page)
                             <span>Pembayaran</span>
                         </div>
                     </a>
-                    <a href="#"
-                        class="px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200 <?= isActiveStudent('student-history') ?>">
+                    <a href="<?= url('transactions') ?>"
+                        class="px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200 <?= isActiveStudent('transactions') ?>">
                         <div class="flex items-center space-x-2">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
                             </svg>
                             <span>Riwayat</span>
-                        </div>
-                    </a>
-                    <a href="/?page=student-profile"
-                        class="px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200 <?= isActiveStudent('student-profile') ?>">
-                        <div class="flex items-center space-x-2">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
-                            </svg>
-                            <span>Profile</span>
                         </div>
                     </a>
                 </div>
@@ -100,7 +91,6 @@ function isActiveStudent($page)
                         <div id="user-dropdown" class="hidden z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-lg w-48">
                             <div class="px-4 py-3">
                                 <span class="block text-sm text-gray-900 font-semibold"><?= $_SESSION['user']['fullname'] ?? 'Siswa' ?></span>
-                                <span class="block text-sm text-gray-500 truncate">NISN: <?= $_SESSION['user']['nisn'] ?? '-' ?></span>
                             </div>
                             <ul class="py-2">
                                 <li>

@@ -60,6 +60,10 @@ Router::get('students/show', 'StudentController','detail');
 // Logs Routes
 Router::get('payment-logs', 'LogController', 'index');
 
+// Transaction Routes
+Router::get('transactions', 'TransactionController', 'histories');
+Router::get('student-transactions', 'TransactionController', 'indexAdmin');
+
 // Logs Class
 // Router::get('classes', 'ClassesController', 'index');
 Router::get('classes', 'ClassesController', 'index');

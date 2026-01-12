@@ -16,5 +16,7 @@ Router::api('bill-types/update', 'BillTypesController', 'update');
 Router::api('bills/update', 'BillsController', 'update');
 
 // TRANSACTION
+Router::api('transaction/upload', 'TransactionController', 'store');
+Router::api('transaction/approve', 'TransactionController', 'approve');
 
 // USERS

@@ -233,7 +233,7 @@
                         ?>
 
                         <?php if (($data_bill['amount'] - $total_paid) > 0): ?>
-                            <button type="button" class="focus:outline-none text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5">
+                            <button data-modal-target="payment-modal" data-modal-toggle="payment-modal" data-id="<?= $data_bill['bill_id'] ?>" type="button" class="focus:outline-none text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5">
                                 Upload Pembayaran
                             </button>
                         <?php endif ?>
@@ -292,15 +292,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <!-- Additional Info (Optional) -->
-                                <?php if (!empty($transaction['notes'])): ?>
-                                    <div class="mt-3 pt-3 border-t border-gray-100">
-                                        <p class="text-sm text-gray-600">
-                                            <span class="font-medium">Catatan:</span> <?= htmlspecialchars($transaction['notes']) ?>
-                                        </p>
-                                    </div>
-                                <?php endif; ?>
                             </div>
                         <?php endforeach; ?>
                     </div>
@@ -344,8 +335,8 @@
                         <h3 class="text-lg font-semibold text-gray-900 mb-2">Belum Ada Transaksi</h3>
                         <p class="text-gray-600 text-sm mb-6">Belum ada pembayaran yang terdaftar untuk tagihan ini</p>
                         <button type="button"
-                            data-modal-target="confirmation-modal"
-                            data-modal-toggle="confirmation-modal"
+                            data-modal-target="payment-modal"
+                            data-modal-toggle="payment-modal"
                             data-id="<?= $data_bill['bill_id'] ?>"
                             data-title="<?= htmlspecialchars($data_bill['title']) ?>"
                             data-amount="<?= number_format($data_bill['amount'], 0, ',', '.') ?>"
@@ -359,55 +350,142 @@
                 <?php endif; ?>
             </div>
 
-            <!-- Payment modal -->
-            <div id="payment-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                <div class="relative p-4 w-full max-w-md max-h-full">
+            <!-- Payment Modal -->
+            <div id="payment-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full bg-gray-900 bg-opacity-50">
+                <div class="relative p-4 w-full max-w-lg max-h-full">
                     <!-- Modal content -->
-                    <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
+                    <div class="relative bg-white rounded-xl shadow-lg">
                         <!-- Modal header -->
-                        <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
-                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                                Create New Product
-                            </h3>
-                            <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="payment-modal">
+                        <div class="flex items-center justify-between p-5 border-b border-gray-200 rounded-t">
+                            <div class="flex items-center gap-3">
+                                <div class="bg-green-100 p-2 rounded-lg">
+                                    <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-900">
+                                        Tambah Pembayaran
+                                    </h3>
+                                    <p class="text-sm text-gray-500">Registrasi pembayaran baru</p>
+                                </div>
+                            </div>
+                            <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-100 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center transition duration-200" data-modal-toggle="payment-modal">
                                 <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                                 </svg>
                                 <span class="sr-only">Close modal</span>
                             </button>
                         </div>
+
                         <!-- Modal body -->
-                        <form class="p-4 md:p-5">
-                            <div class="grid gap-4 mb-4 grid-cols-2">
-                                <div class="col-span-2">
-                                    <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                                    <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Type product name" required="">
-                                </div>
-                                <div class="col-span-2 sm:col-span-1">
-                                    <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label>
-                                    <input type="number" name="price" id="price" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="$2999" required="">
-                                </div>
-                                <div class="col-span-2 sm:col-span-1">
-                                    <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
-                                    <select id="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                        <option selected="">Select category</option>
-                                        <option value="TV">TV/Monitors</option>
-                                        <option value="PC">PC</option>
-                                        <option value="GA">Gaming/Console</option>
-                                        <option value="PH">Phones</option>
-                                    </select>
-                                </div>
-                                <div class="col-span-2">
-                                    <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Product Description</label>
-                                    <textarea id="description" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write product description here"></textarea>
+                        <form class="p-5" id="payment-form">
+                            <input type="hidden" name="bill_id" id="payment-bill-id" value="">
+
+                            <!-- Alert Success (Hidden by default) -->
+                            <div id="success-alert" class="hidden mb-4 p-4 rounded-lg bg-green-50 border border-green-200">
+                                <div class="flex items-center gap-2">
+                                    <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <span class="text-sm font-medium text-green-800">Pembayaran berhasil diregistrasi!</span>
                                 </div>
                             </div>
-                            <button type="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path>
-                                </svg>
-                                Add new product
-                            </button>
+
+                            <!-- Alert Error (Hidden by default) -->
+                            <div id="error-alert" class="hidden mb-4 p-4 rounded-lg bg-red-50 border border-red-200">
+                                <div class="flex items-center gap-2">
+                                    <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <span class="text-sm font-medium text-red-800" id="error-message">Terjadi kesalahan!</span>
+                                </div>
+                            </div>
+
+                            <div class="space-y-4">
+                                <!-- Jumlah Pembayaran -->
+                                <div>
+                                    <label for="amount" class="block mb-2 text-sm font-medium text-gray-900">
+                                        Jumlah Pembayaran <span class="text-red-500">*</span>
+                                    </label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                            <span class="text-gray-500 text-sm font-medium">Rp</span>
+                                        </div>
+                                        <input type="number"
+                                            name="amount"
+                                            id="amount"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full pl-11 p-2.5"
+                                            placeholder="0"
+                                            required
+                                            min="1">
+                                    </div>
+                                    <p class="mt-1 text-xs text-gray-500">Masukkan jumlah pembayaran dalam Rupiah</p>
+                                </div>
+
+                                <!-- Metode Pembayaran -->
+                                <div>
+                                    <label for="payment_method" class="block mb-2 text-sm font-medium text-gray-900">
+                                        Metode Pembayaran <span class="text-red-500">*</span>
+                                    </label>
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <label class="relative flex items-center p-3 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-green-500 transition duration-200 payment-method-option">
+                                            <input type="radio" name="payment_method" value="cash" class="sr-only peer" required>
+                                            <div class="flex items-center gap-3 w-full">
+                                                <div class="bg-gray-100 p-2 rounded-lg peer-checked:bg-green-100">
+                                                    <svg class="w-5 h-5 text-gray-600 peer-checked:text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                                                    </svg>
+                                                </div>
+                                                <div class="flex-1">
+                                                    <span class="text-sm font-medium text-gray-900">Cash</span>
+                                                </div>
+                                            </div>
+                                            <div class="absolute top-2 right-2 hidden peer-checked:block">
+                                                <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                                </svg>
+                                            </div>
+                                        </label>
+
+                                        <label class="relative flex items-center p-3 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-green-500 transition duration-200 payment-method-option">
+                                            <input type="radio" name="payment_method" value="transfer" class="sr-only peer" required>
+                                            <div class="flex items-center gap-3 w-full">
+                                                <div class="bg-gray-100 p-2 rounded-lg peer-checked:bg-green-100">
+                                                    <svg class="w-5 h-5 text-gray-600 peer-checked:text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
+                                                    </svg>
+                                                </div>
+                                                <div class="flex-1">
+                                                    <span class="text-sm font-medium text-gray-900">Transfer</span>
+                                                </div>
+                                            </div>
+                                            <div class="absolute top-2 right-2 hidden peer-checked:block">
+                                                <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                                </svg>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="mt-6 flex gap-3">
+                                <button type="submit"
+                                    id="submit-btn"
+                                    class="flex-1 text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition duration-200 inline-flex items-center justify-center gap-2">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                    </svg>
+                                    <span id="submit-text">Simpan Pembayaran</span>
+                                </button>
+                                <button type="button"
+                                    data-modal-toggle="payment-modal"
+                                    class="px-5 py-2.5 text-sm font-medium text-gray-700 bg-white rounded-lg border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 transition duration-200">
+                                    Batal
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -429,5 +507,108 @@
             // Set hidden bill_id
             document.getElementById('data-id').value = this.dataset.id;
         });
+    });
+
+    // Payment Modal Handler
+    document.querySelectorAll('.add-payment-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            // Set bill_id ke payment form
+            document.getElementById('payment-bill-id').value = this.dataset.id;
+
+            // Reset form
+            document.getElementById('payment-form').reset();
+
+            // Hide alerts
+            document.getElementById('success-alert').classList.add('hidden');
+            document.getElementById('error-alert').classList.add('hidden');
+        });
+    });
+
+    // Payment Method Selection Visual Feedback
+    document.querySelectorAll('.payment-method-option').forEach(label => {
+        label.addEventListener('click', function() {
+            // Remove active class from all
+            document.querySelectorAll('.payment-method-option').forEach(l => {
+                l.classList.remove('border-green-500', 'bg-green-50');
+            });
+            // Add active class to selected
+            this.classList.add('border-green-500', 'bg-green-50');
+        });
+    });
+
+    // AJAX Form Submission
+    document.getElementById('payment-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const submitBtn = document.getElementById('submit-btn');
+        const submitText = document.getElementById('submit-text');
+        const successAlert = document.getElementById('success-alert');
+        const errorAlert = document.getElementById('error-alert');
+
+        // Disable button and show loading
+        submitBtn.disabled = true;
+        submitText.textContent = 'Menyimpan...';
+        submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
+
+        // Hide alerts
+        successAlert.classList.add('hidden');
+        errorAlert.classList.add('hidden');
+
+        // Get form data
+        const formData = new FormData(this);
+
+        // Send AJAX request
+        fetch('<?= url("transaction/upload", ['bill_id' => $data_bill['bill_id']]) ?>', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Show success alert
+                    successAlert.classList.remove('hidden');
+
+                    // Reset form
+                    document.getElementById('payment-form').reset();
+
+                    // Remove active state from payment methods
+                    document.querySelectorAll('.payment-method-option').forEach(l => {
+                        l.classList.remove('border-green-500', 'bg-green-50');
+                    });
+
+                    // Reload page after 1.5 seconds
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1500);
+                } else {
+                    // Show error alert
+                    document.getElementById('error-message').textContent = data.message || 'Terjadi kesalahan!';
+                    errorAlert.classList.remove('hidden');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('error-message').textContent = 'Terjadi kesalahan koneksi!';
+                errorAlert.classList.remove('hidden');
+            })
+            .finally(() => {
+                // Re-enable button
+                submitBtn.disabled = false;
+                submitText.textContent = 'Simpan Pembayaran';
+                submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+            });
+    });
+
+    // Format number input (add thousand separator on blur)
+    document.getElementById('amount').addEventListener('blur', function() {
+        if (this.value) {
+            const value = parseInt(this.value.replace(/\./g, ''));
+            if (!isNaN(value)) {
+                this.value = value;
+            }
+        }
     });
 </script>
