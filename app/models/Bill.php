@@ -317,4 +317,15 @@ class Bill
 
         return $query->fetch(PDO::FETCH_ASSOC);
     }
+
+    public static function count()
+    {
+        $db = Database::getInstance()->pdo();
+
+        $query = $db->prepare('SELECT COUNT(b.id) as total_data FROM bills b');
+
+        $query->execute();
+
+        return $query->fetch(PDO::FETCH_ASSOC);
+    }
 }

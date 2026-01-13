@@ -5,7 +5,17 @@ class DashboardController extends Controller
     {
         require_auth();
 
-        $this->view('dashboard-admin', [], 'admin');
+        $summary = [
+            'total_siswa' => Student::count()['total'],
+            'total_tagihan' => Bill::sumAmount()['total'],
+            'total_pemasukan' => Transaction::sumAmount('approved')['total'],
+            'total_data_pemasukan' => Transaction::countApproved()['total'],
+            'total_data_tagihan' => Bill::count()['total_data']
+        ];
+
+        $latest_transactions = Transaction::getAll(5);
+
+        $this->view('dashboard-admin', compact('summary', 'latest_transactions'), 'admin');
     }
 
     public function student()

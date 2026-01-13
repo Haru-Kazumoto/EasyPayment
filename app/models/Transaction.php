@@ -125,31 +125,44 @@ class Transaction
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function getAll()
+    public static function getAll(?int $limit = null)
     {
         $db = Database::getInstance()->pdo();
 
-        $query = $db->prepare("
-                SELECT
-                    tx.id,
-                    tx.amount,
-                    tx.paid_at,
-                    tx.trx_number,
-                    tx.payment_method,
-                    s.fullname as student_name,
-                    b.title as bill_title,
-                    case
-                        when tx.approved_by IS NULL then 'pending'
-                        ELSE 'approved'
-                    END AS status
-                FROM transaction tx
-                INNER JOIN student s ON s.id = tx.student_id
-                INNER JOIN bills b ON b.id = tx.bill_id
-                ORDER BY tx.paid_at DESC
-            ");
+        $sql = "
+            SELECT
+                tx.id,
+                tx.amount,
+                tx.paid_at,
+                tx.trx_number,
+                tx.payment_method,
+                s.fullname as student_name,
+                b.title as bill_title,
+                CASE
+                    WHEN tx.approved_by IS NULL THEN 'pending'
+                    ELSE 'approved'
+                END AS status,
+                CASE
+                    WHEN tx.approved_at IS NULL THEN 'yellow'
+                    ELSE 'green'
+                END AS status_color
+            FROM transaction tx
+            INNER JOIN student s ON s.id = tx.student_id
+            INNER JOIN bills b ON b.id = tx.bill_id
+            ORDER BY tx.paid_at DESC
+        ";
+
+        if ($limit !== null) {
+            $sql .= " LIMIT :limit";
+        }
+
+        $query = $db->prepare($sql);
+
+        if ($limit !== null) {
+            $query->bindValue(':limit', $limit, PDO::PARAM_INT);
+        }
 
         $query->execute();
-
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -204,6 +217,17 @@ class Transaction
         $db = Database::getInstance()->pdo();
 
         $query = $db->prepare("SELECT COUNT(tx.id) as total FROM transaction tx WHERE tx.approved_by IS NULL");
+
+        $query->execute();
+
+        return $query->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public static function countApproved()
+    {
+        $db = Database::getInstance()->pdo();
+
+        $query = $db->prepare("SELECT COUNT(tx.id) as total FROM transaction tx WHERE tx.approved_by IS NOT NULL");
 
         $query->execute();
 

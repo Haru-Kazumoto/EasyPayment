@@ -197,4 +197,15 @@ class Student
 
         return $query->fetch(PDO::FETCH_ASSOC);
     }
+
+    public static function count()
+    {
+        $db = Database::getInstance()->pdo();
+
+        $query = $db->prepare('SELECT COUNT(id) as total FROM student');
+
+        $query->execute();
+
+        return $query->fetch();
+    }
 }

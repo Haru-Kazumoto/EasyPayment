@@ -1,9 +1,9 @@
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
     <div class="bg-white rounded-lg shadow p-6">
         <div class="flex items-center justify-between mb-4">
             <div>
                 <p class="text-sm text-gray-600 mb-1">Total Siswa</p>
-                <h3 class="text-2xl font-bold text-gray-800">1,234</h3>
+                <h3 class="text-2xl font-bold text-gray-800"><?= number_format($summary['total_siswa'], 0) ?></h3>
             </div>
             <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
                 <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 18">
@@ -12,10 +12,7 @@
             </div>
         </div>
         <p class="text-xs text-green-600 flex items-center">
-            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd"></path>
-            </svg>
-            +12% dari bulan lalu
+            Siswa tercatat aktif
         </p>
     </div>
 
@@ -23,7 +20,7 @@
         <div class="flex items-center justify-between mb-4">
             <div>
                 <p class="text-sm text-gray-600 mb-1">Total Tagihan</p>
-                <h3 class="text-2xl font-bold text-gray-800">Rp 150 Jt</h3>
+                <h3 class="text-2xl font-bold text-gray-800">Rp<?= number_format($summary['total_tagihan'], 0, ',', '.') ?></h3>
             </div>
             <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
                 <svg class="w-6 h-6 text-yellow-600" fill="currentColor" viewBox="0 0 18 20">
@@ -32,15 +29,15 @@
             </div>
         </div>
         <p class="text-xs text-gray-600">
-            45 tagihan aktif
+            <?= $summary['total_data_tagihan'] ?> tagihan aktif
         </p>
     </div>
 
     <div class="bg-white rounded-lg shadow p-6">
         <div class="flex items-center justify-between mb-4">
             <div>
-                <p class="text-sm text-gray-600 mb-1">Pembayaran</p>
-                <h3 class="text-2xl font-bold text-gray-800">Rp 89 Jt</h3>
+                <p class="text-sm text-gray-600 mb-1">Pemasukan</p>
+                <h3 class="text-2xl font-bold text-gray-800">Rp<?= number_format($summary['total_pemasukan'], 0, ',', '.') ?></h3>
             </div>
             <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
                 <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
@@ -50,102 +47,108 @@
             </div>
         </div>
         <p class="text-xs text-green-600 flex items-center">
-            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd"></path>
-            </svg>
-            59% dari target
-        </p>
-    </div>
-
-    <div class="bg-white rounded-lg shadow p-6">
-        <div class="flex items-center justify-between mb-4">
-            <div>
-                <p class="text-sm text-gray-600 mb-1">Tunggakan</p>
-                <h3 class="text-2xl font-bold text-gray-800">Rp 61 Jt</h3>
-            </div>
-            <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
-                <svg class="w-6 h-6 text-red-600" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM10 15a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm1-4a1 1 0 0 1-2 0V6a1 1 0 0 1 2 0v5Z" />
-                </svg>
-            </div>
-        </div>
-        <p class="text-xs text-red-600">
-            234 siswa belum bayar
+            <?= $summary['total_data_pemasukan'] ?> transaksi telah diapprove
         </p>
     </div>
 </div>
 
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-    <div class="lg:col-span-2 bg-white rounded-lg shadow">
-        <div class="p-6 border-b border-gray-200 bg-blue-600 rounded-t-lg">
-            <h2 class="text-lg font-semibold text-white">Transaksi Terbaru</h2>
+    <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-100">
+        <div class="p-6 bg-blue-600 rounded-t-xl">
+            <h2 class="text-lg font-semibold text-white flex items-center">
+                Transaksi Terbaru
+            </h2>
         </div>
         <div class="p-6">
-            <div class="relative overflow-x-auto">
-                <table class="w-full text-sm text-left text-gray-500">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+            <div class="relative overflow-x-auto rounded-lg border border-gray-200">
+                <table class="w-full text-sm text-left">
+                    <thead class="text-xs text-white uppercase bg-blue-600">
                         <tr>
-                            <th scope="col" class="px-6 py-3">Siswa</th>
-                            <th scope="col" class="px-6 py-3">Tagihan</th>
-                            <th scope="col" class="px-6 py-3">Jumlah</th>
-                            <th scope="col" class="px-6 py-3">Status</th>
-                            <th scope="col" class="px-6 py-3">Tanggal</th>
+                            <th scope="col" class="px-6 py-4 font-semibold text-white">
+                                <div class="flex items-center">
+                                    Siswa
+                                </div>
+                            </th>
+                            <th scope="col" class="px-6 py-4 font-semibold text-white">
+                                <div class="flex items-center">
+                                    Tagihan
+                                </div>
+                            </th>
+                            <th scope="col" class="px-6 py-4 font-semibold text-white">
+                                <div class="flex items-center">
+                                    Jumlah
+                                </div>
+                            </th>
+                            <th scope="col" class="px-6 py-4 font-semibold text-white">
+                                <div class="flex items-center">
+                                    Status
+                                </div>
+                            </th>
+                            <th scope="col" class="px-6 py-4 font-semibold text-white">
+                                <div class="flex items-center">
+                                    Tanggal
+                                </div>
+                            </th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr class="bg-white border-b hover:bg-gray-50">
-                            <td class="px-6 py-4 font-medium text-gray-900">Ahmad Rizki</td>
-                            <td class="px-6 py-4">SPP Desember 2024</td>
-                            <td class="px-6 py-4">Rp 500.000</td>
-                            <td class="px-6 py-4">
-                                <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">Lunas</span>
-                            </td>
-                            <td class="px-6 py-4">25 Des 2024</td>
-                        </tr>
-                        <tr class="bg-white border-b hover:bg-gray-50">
-                            <td class="px-6 py-4 font-medium text-gray-900">Siti Nurhaliza</td>
-                            <td class="px-6 py-4">SPP Desember 2024</td>
-                            <td class="px-6 py-4">Rp 500.000</td>
-                            <td class="px-6 py-4">
-                                <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded">Pending</span>
-                            </td>
-                            <td class="px-6 py-4">25 Des 2024</td>
-                        </tr>
-                        <tr class="bg-white border-b hover:bg-gray-50">
-                            <td class="px-6 py-4 font-medium text-gray-900">Budi Santoso</td>
-                            <td class="px-6 py-4">Uang Gedung</td>
-                            <td class="px-6 py-4">Rp 2.000.000</td>
-                            <td class="px-6 py-4">
-                                <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">Lunas</span>
-                            </td>
-                            <td class="px-6 py-4">24 Des 2024</td>
-                        </tr>
-                        <tr class="bg-white hover:bg-gray-50">
-                            <td class="px-6 py-4 font-medium text-gray-900">Dewi Lestari</td>
-                            <td class="px-6 py-4">SPP Desember 2024</td>
-                            <td class="px-6 py-4">Rp 500.000</td>
-                            <td class="px-6 py-4">
-                                <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">Lunas</span>
-                            </td>
-                            <td class="px-6 py-4">24 Des 2024</td>
-                        </tr>
+                    <tbody class="divide-y divide-gray-100">
+                        <?php foreach ($latest_transactions as $transaction): ?>
+                            <tr class="bg-white hover:bg-blue-50/50 transition-colors duration-150">
+                                <td class="px-6 py-4">
+                                    <span class="font-semibold text-gray-900"><?= $transaction['student_name'] ?></span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="text-gray-700 font-medium"><?= $transaction['bill_title'] ?></span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="font-bold text-gray-900">Rp<?= number_format($transaction['amount'], 0, ',', '.') ?></span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="inline-flex items-center bg-<?= $transaction['status_color'] ?>-100 text-<?= $transaction['status_color'] ?>-700 border border-<?= $transaction['status_color'] ?>-300 text-xs font-semibold px-3 py-1.5 rounded-full">
+                                        <span class="w-1.5 h-1.5 bg-<?= $transaction['status_color'] ?>-500 rounded-full mr-2"></span>
+                                        <?= $transaction['status'] === 'pending' ? 'Menunggu' : 'Disetujui' ?>
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="text-gray-600 text-sm"><?= format_date($transaction['paid_at'], true) ?></span>
+                                </td>
+                            </tr>
+                        <?php endforeach ?>
                     </tbody>
                 </table>
             </div>
-            <div class="mt-4 text-center">
-                <a href="/?page=transactions" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
-                    Lihat Semua Transaksi →
+
+            <!-- Empty State (jika tidak ada data) -->
+            <?php if (empty($latest_transactions)): ?>
+                <div class="text-center py-12">
+                    <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm3 1h6v4H7V5zm6 6H7v2h6v-2z" clip-rule="evenodd" />
+                    </svg>
+                    <h3 class="text-lg font-semibold text-gray-700 mb-2">Belum Ada Transaksi</h3>
+                    <p class="text-gray-500 text-sm">Transaksi terbaru akan muncul di sini</p>
+                </div>
+            <?php endif ?>
+
+            <div class="mt-6 flex items-center justify-between border-t border-gray-200 pt-4">
+                <p class="text-sm text-gray-600">
+                    Menampilkan <span class="font-semibold text-gray-900"><?= count($latest_transactions) ?></span> transaksi terbaru
+                </p>
+                <a href="<?= url('student-transactions') ?>" class="inline-flex items-center text-blue-600 hover:text-blue-700 text-sm font-semibold hover:underline transition-all group">
+                    Lihat Semua Transaksi
+                    <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
                 </a>
             </div>
         </div>
     </div>
 
-    <div class="bg-white rounded-lg shadow">
+    <div class="bg-white rounded-lg shadow h-fit">
         <div class="p-6 border-b border-gray-200 bg-blue-600 rounded-t-lg">
             <h2 class="text-lg font-semibold text-white">Aksi Cepat</h2>
         </div>
         <div class="p-6 space-y-3">
-            <a href="/?page=students&action=add" class="flex items-center p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition">
+            <a href="<?= url('students') ?>" class="flex items-center p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition">
                 <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
                     <svg class="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"></path>
@@ -157,7 +160,7 @@
                 </div>
             </a>
 
-            <a href="/?page=bills&action=add" class="flex items-center p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition">
+            <a href="<?= url('admin-bills') ?>" class="flex items-center p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition">
                 <div class="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center mr-3">
                     <svg class="w-5 h-5 text-yellow-600" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"></path>
@@ -169,7 +172,7 @@
                 </div>
             </a>
 
-            <a href="/?page=transactions&status=pending" class="flex items-center p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition">
+            <a href="<?= url('student-transactions') ?>" class="flex items-center p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition">
                 <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center mr-3">
                     <svg class="w-5 h-5 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM10 15a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm1-4a1 1 0 0 1-2 0V6a1 1 0 0 1 2 0v5Z" />
@@ -177,19 +180,7 @@
                 </div>
                 <div>
                     <p class="font-medium text-gray-800">Verifikasi Pembayaran</p>
-                    <p class="text-xs text-gray-500">5 pembayaran menunggu</p>
-                </div>
-            </a>
-
-            <a href="/?page=payment-logs" class="flex items-center p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition">
-                <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mr-3">
-                    <svg class="w-5 h-5 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z" clip-rule="evenodd"></path>
-                    </svg>
-                </div>
-                <div>
-                    <p class="font-medium text-gray-800">Lihat Log</p>
-                    <p class="text-xs text-gray-500">Riwayat aktivitas</p>
+                    <p class="text-xs text-gray-500">Validasi pembayaran baru</p>
                 </div>
             </a>
         </div>
